@@ -1,17 +1,17 @@
 package pl.kamilsieczkowski.dataInitializer;
 
-import pl.kamilsieczkowski.utils.Admin;
-import pl.kamilsieczkowski.utils.Client;
-import pl.kamilsieczkowski.utils.Employee;
+import pl.kamilsieczkowski.utils.User;
 
 import java.util.*;
 
+import static pl.kamilsieczkowski.constants.Privilege.*;
+
 public class Initializer {
-    public List<Client> initializeClientList() {
-        ArrayList<Client> admins = new ArrayList<>();
-        admins.add(new Admin("Admin", "pass"));
-        admins.add(new Employee("Employee", "pass"));
-        admins.add(new Client("Client", "Client"));
-        return admins;
+    public List<User> initializeUsersList() {
+        ArrayList<User> users = new ArrayList<>();
+        users.add(new User("Admin", "pass", ADMIN));
+        users.add(new User("Employee", "pass", EMPLOYEE));
+        users.add(new User("Client", "Client", CLIENT));
+        return users;
     }
 }
