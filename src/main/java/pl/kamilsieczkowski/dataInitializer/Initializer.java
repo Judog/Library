@@ -8,7 +8,7 @@ import static pl.kamilsieczkowski.constants.Privilege.*;
 
 public class Initializer {
     public List<User> initializeUsersList() {
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<User>();
         users.add(new User("Admin", "pass", ADMIN));
         users.add(new User("Employee", "pass", EMPLOYEE));
         users.add(new User("Client", "Client", CLIENT));
