@@ -41,8 +41,8 @@ public class LoginController implements Initializable {
         System.out.println(canLogin);
     }
 
-    private boolean checkUsersDatabase(boolean login, ArrayList<Boolean> loginIsCorrect) {
-        for (Boolean correct : loginIsCorrect) {
+    private boolean checkUsersDatabase(boolean login, ArrayList<Boolean> userCheckList) {
+        for (Boolean correct : userCheckList) {
             if (correct) {
                 login = true;
             }
