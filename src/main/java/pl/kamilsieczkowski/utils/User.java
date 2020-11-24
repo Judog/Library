@@ -10,4 +10,12 @@ public class User {
         this.password = password;
         this.privilege = privilege;
     }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
