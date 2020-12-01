@@ -38,18 +38,13 @@ public class LoginPopupController implements Initializable {
         window.show();
     }
 
-    private void setLabelTextAfterLogin(boolean loginStatus) {
-        if (loginStatus) {
-            this.loginStatusText.setText("Logowanie prawidłowe");
-        } else {
-            this.loginStatusText.setText("Logowanie nieprawidłowe");
-        }
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        okButton.setOnAction((ActionEvent event) -> closeWindow());
+    }
 
-        okButton.setOnAction((ActionEvent event) -> getStage().close());
+    private void closeWindow() {
+        getStage().close();
     }
 
     private Stage getStage() {
