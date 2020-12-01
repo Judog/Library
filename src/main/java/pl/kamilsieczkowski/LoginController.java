@@ -1,60 +1,67 @@
 package pl.kamilsieczkowski;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import pl.kamilsieczkowski.dataInitializer.Initializer;
-import pl.kamilsieczkowski.utils.User;
+import pl.kamilsieczkowski.login.Login;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static pl.kamilsieczkowski.constants.Texts.LOGGED_IN;
+import static pl.kamilsieczkowski.constants.Texts.LOGIN_FAILED;
+
 public class LoginController implements Initializable {
+    @FXML
+    private Pane window;
     @FXML
     private TextField loginField;
     @FXML
     private PasswordField passwordField;
     @FXML
     private Button loginButton;
+    @FXML
+    private Label loginStatus;
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loginButton.setOnAction(x -> {
-            checkLoginStatus();
+        Login loginObject = new Login(new Initializer());
+        loginButton.setOnAction(login -> {
+            try {
+                checkUserAndPassword(loginObject);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
-    private void checkLoginStatus() {
-        boolean canLogin = false;
-        Initializer initializer = new Initializer();
-        for (User user : initializer.initializeUsersList()) {
-            boolean loginCorrect = loginField.getText().equals(user.getLogin());
-            boolean passwordCorrect = passwordField.getText().equals(user.getPassword());
-            ArrayList<Boolean> usersCheckList = new ArrayList<>();
-            usersCheckList.add((isLoginAndPasswordCorrect(loginCorrect, passwordCorrect)));
-            canLogin = checkUsersDatabase(canLogin, usersCheckList);
-        }
-        //prints true when users login and password is correct, if not prints false.
-        System.out.println(canLogin);
-    }
-
-    private boolean checkUsersDatabase(boolean login, ArrayList<Boolean> userCheckList) {
-        for (Boolean correct : userCheckList) {
-            if (correct) {
-                login = true;
-            }
-        }
-        return login;
-    }
-
-    private boolean isLoginAndPasswordCorrect(boolean loginCorrect, boolean passwordCorrect) {
-        if (loginCorrect && passwordCorrect) {
-            return true;
+    private void checkUserAndPassword(Login loginObject) throws IOException {
+        if (loginObject.checkLoginStatus(loginField.getText(), passwordField.getText())) {
+            newWindow();
         } else {
-            return false;
+            loginStatus.setText(LOGIN_FAILED);
         }
+    }
+
+    private void newWindow() throws IOException {
+        window = new Pane();
+        Stage stage = new Stage();
+        Parent content = FXMLLoader.load(getClass().getResource("/loginPopup.fxml"));
+        Scene scene = new Scene(content);
+        stage.setTitle(LOGGED_IN);
+        stage.setScene(scene);
+        stage.show();
     }
 }

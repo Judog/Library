@@ -7,15 +7,17 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane prefHeight="275" prefWidth="300" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="pl.kamilsieczkowski.LoginController">
+<Pane fx:id="window" prefHeight="275" prefWidth="300" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1"
+      fx:controller="pl.kamilsieczkowski.LoginController">
     <children>
         <VBox alignment="CENTER" prefHeight="275" prefWidth="300" spacing="7">
             <children>
-                <Label text="Nazwa użytkownika" />
-                <TextField fx:id="loginField" alignment="CENTER" maxWidth="150" minWidth="150" />
-                <Label text="Hasło:" />
-                <PasswordField fx:id="passwordField" alignment="CENTER" maxWidth="150" minWidth="150" />
-                <Button fx:id="loginButton" text="Login" />
+                <Label text="Nazwa użytkownika"/>
+                <TextField fx:id="loginField" alignment="CENTER" maxWidth="150" minWidth="150"/>
+                <Label text="Hasło:"/>
+                <PasswordField fx:id="passwordField" alignment="CENTER" maxWidth="150" minWidth="150"/>
+                <Button fx:id="loginButton" text="Login"/>
+                <Label fx:id="loginStatus" text="status logowania:"/>
             </children>
         </VBox>
     </children>
