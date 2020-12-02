@@ -47,7 +47,7 @@ public class LoginController implements Initializable {
     }
 
     private void checkUserAndPassword(Login loginObject) throws IOException {
-        if (loginObject.checkLoginStatus(loginField.getText(), passwordField.getText())) {
+        if (loginObject.isLoginSuccessful(loginField.getText(), passwordField.getText())) {
             newWindow();
         } else {
             loginStatus.setText(LOGIN_FAILED);
