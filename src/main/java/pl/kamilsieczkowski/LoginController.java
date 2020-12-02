@@ -34,7 +34,6 @@ public class LoginController implements Initializable {
     private Label loginStatus;
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Login loginObject = new Login(new Initializer());

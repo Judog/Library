@@ -7,10 +7,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
-
 import java.net.URL;
 import java.util.ResourceBundle;
-
 
 public class LoginPopupController implements Initializable {
     @FXML
