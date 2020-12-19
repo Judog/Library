@@ -6,6 +6,13 @@
     <groupId>pl.kamilsieczkowski</groupId>
     <artifactId>library</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.22</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

@@ -1,24 +1,19 @@
 package pl.kamilsieczkowski.login;
 
-import pl.kamilsieczkowski.dataInitializer.Initializer;
+import pl.kamilsieczkowski.database.Connector;
 import pl.kamilsieczkowski.utils.User;
 
-import java.util.List;
+import java.sql.SQLException;
 
 public class Login {
-    private Initializer initializer;
-
-    public Login(Initializer initializer) {
-        this.initializer = initializer;
-    }
-
-    public boolean isLoginSuccessful(String login, String password) {
-        List<User> usersList = initializer.initializeUsersList();
+    public boolean isLoginSuccessful(String login, String password) throws SQLException {
         User user = new User(login, password, null);
-        return isUserAndPasswordCorrect(usersList, user);
+        Connector connector = new Connector();
+        User databaseUser = connector.connectUsersDatabase(login);
+        return isUserAndPasswordCorrect(databaseUser, user);
     }
 
-    private boolean isUserAndPasswordCorrect(List<User> usersList, User user) {
-        return usersList.contains(user);
+    private boolean isUserAndPasswordCorrect(User databaseUser, User user) {
+        return user.equals(databaseUser);
     }
 }

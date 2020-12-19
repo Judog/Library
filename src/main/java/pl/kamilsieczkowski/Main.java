@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
+
+import java.sql.SQLException;
+
 import static pl.kamilsieczkowski.constants.Texts.LOGIN_WINDOW_TITLE;
 
 public class Main extends Application {
@@ -19,7 +22,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         launch(args);
     }
 }

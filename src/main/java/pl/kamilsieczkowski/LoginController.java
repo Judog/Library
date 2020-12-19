@@ -11,11 +11,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import pl.kamilsieczkowski.dataInitializer.Initializer;
 import pl.kamilsieczkowski.login.Login;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static pl.kamilsieczkowski.constants.Texts.LOGGED_IN;
@@ -36,17 +36,17 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Login loginObject = new Login(new Initializer());
+        Login loginObject = new Login();
         loginButton.setOnAction(login -> {
             try {
                 checkUserAndPassword(loginObject);
-            } catch (IOException e) {
+            } catch (IOException | SQLException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    private void checkUserAndPassword(Login loginObject) throws IOException {
+    private void checkUserAndPassword(Login loginObject) throws IOException, SQLException {
         if (loginObject.isLoginSuccessful(loginField.getText(), passwordField.getText())) {
             newWindow();
         } else {

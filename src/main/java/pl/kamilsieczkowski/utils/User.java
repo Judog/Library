@@ -5,9 +5,9 @@ import java.util.Objects;
 public class User {
     private String login;
     private String password;
-    private final Enum privilege;
+    private String privilege;
 
-    public User(final String login, final String password, final Enum privilege) {
+    public User(final String login, final String password, final String privilege) {
         this.login = login;
         this.password = password;
         this.privilege = privilege;
