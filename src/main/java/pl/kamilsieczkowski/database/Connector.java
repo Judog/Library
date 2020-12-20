@@ -24,7 +24,6 @@ public class Connector {
             String privilege = resultSet.getString("privilege");
             user = new User(username, password, privilege);
         }
-
         return user;
     }
 }
