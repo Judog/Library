@@ -2,17 +2,109 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane fx:id="popupPane" prefHeight="150" prefWidth="150" xmlns:fx="http://javafx.com/fxml/1"
-      xmlns="http://javafx.com/javafx/11.0.1" fx:controller="pl.kamilsieczkowski.LoginPopupController">
-    <children>
-        <VBox alignment="CENTER" prefHeight="150" prefWidth="150" spacing="7">
-            <children>
-                <Label fx:id="loginStatusText"/>
-                <Button fx:id="okButton" text="Ok"/>
-            </children>
-        </VBox>
-    </children>
+<Pane fx:id="popupPane" prefHeight="385.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.kamilsieczkowski.LoginPopupController">
+    <TabPane prefHeight="382.0" prefWidth="785.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab fx:id="publicationsTab">
+                <content>
+                    <AnchorPane prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <VBox prefHeight="355.0" prefWidth="784.0" spacing="7">
+                                <HBox prefHeight="86.0" prefWidth="784.0">
+                                    <children>
+                                        <AnchorPane prefHeight="17.0" prefWidth="59.0">
+                                            <children>
+                                                <Label fx:id="id_numberLabel" prefHeight="25.0" prefWidth="60.0"
+                                                       AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0"/>
+                                                <Label fx:id="signatureLabel" prefHeight="25.0" prefWidth="60.0"
+                                                       AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0"/>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="31.0" prefWidth="242.0">
+                                            <children>
+                                                <TextField fx:id="id_numberTextField" AnchorPane.leftAnchor="5.0"
+                                                           AnchorPane.topAnchor="5.0"/>
+                                                <TextField fx:id="signatureTextField" AnchorPane.bottomAnchor="5.0"
+                                                           AnchorPane.leftAnchor="5.0"/>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane prefHeight="17.0" prefWidth="59.0">
+                                            <children>
+                                                <Label fx:id="authorLabel" prefHeight="25.0" prefWidth="40.0"
+                                                       AnchorPane.leftAnchor="5.0"
+                                                       AnchorPane.topAnchor="5.0"/>
+                                                <Label fx:id="titleLabel" prefHeight="25.0" prefWidth="40.0"
+                                                       AnchorPane.bottomAnchor="5.0"
+                                                       AnchorPane.leftAnchor="5.0"/>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane layoutX="69.0" layoutY="10.0" prefHeight="31.0" prefWidth="242.0">
+                                            <children>
+                                                <TextField fx:id="authorTextField" AnchorPane.leftAnchor="5.0"
+                                                           AnchorPane.topAnchor="5.0"/>
+                                                <TextField fx:id="titleTextField" AnchorPane.bottomAnchor="5.0"
+                                                           AnchorPane.leftAnchor="5.0"/>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="91.0" prefWidth="784.0">
+                                            <children>
+                                                <TextField fx:id="keyWordsTextField" prefHeight="25.0"
+                                                           prefWidth="290.0"
+                                                           AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0"/>
+                                                <Label fx:id="keyWordsLabel" prefHeight="25.0" prefWidth="70.0"
+
+                                                       AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0"/>
+                                                <Button fx:id="searchButton" alignment="CENTER" layoutX="155.0"
+                                                        layoutY="39.0"
+                                                        mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0"
+                                                        textAlignment="CENTER"
+                                                        AnchorPane.topAnchor="35.0"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </HBox>
+                                <TableView prefHeight="272.0">
+                                    <columns>
+                                        <TableColumn fx:id="idNumberColumn"/>
+                                        <TableColumn fx:id="signatureColumn"/>
+                                        <TableColumn fx:id="authorColumn"/>
+                                        <TableColumn fx:id="titleColumn"/>
+                                        <TableColumn fx:id="tomeColumn"/>
+                                        <TableColumn fx:id="editionColumn"/>
+                                        <TableColumn fx:id="conditionColumn"/>
+                                        <TableColumn fx:id="localizationColumn"/>
+                                    </columns>
+                                </TableView>
+                                <HBox prefHeight="50.0" prefWidth="784.0">
+                                    <Button fx:id="borrowButton" mnemonicParsing="false"/>
+                                    <Button fx:id="returnButton" mnemonicParsing="false"/>
+                                    <Button fx:id="prolongButton" layoutX="62.0" layoutY="10.0"
+                                            mnemonicParsing="false"/>
+                                    <Button fx:id="editDescriptionButton" layoutX="10.0" layoutY="10.0"
+                                            mnemonicParsing="false" text="Edit description"/>
+                                    <Button fx:id="addNewButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
+                                    />
+                                    <AnchorPane prefHeight="38.0" prefWidth="432.0">
+                                        <Label fx:id="foundLabel" layoutX="329.0" layoutY="4.0"/>
+                                        <Label fx:id="avabilityLabel" layoutX="81.0" layoutY="4.0"/>
+                                    </AnchorPane>
+                                </HBox>
+                            </VBox>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
 </Pane>
