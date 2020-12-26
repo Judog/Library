@@ -25,4 +25,15 @@ public class Texts {
     public static final String AVABILITY = "Avability:";
     public static final String PASSWORD = "Password:";
     public static final String USER = "User:";
+    public static final String INSERT = "Insert";
+    public static final String END = "End";
+    public static final String ISBN = "ISBN/ISSN";
+    public static final String YEAR_OF_REALASE = "Year of realase";
+    public static final String VALUE = "Value";
+    public static final String PUBLISHER = "Publisher";
+    public static final String DESCRIPTION = "Description";
+    public static final String TOPIC = "Topic";
+    public static final String STATE = "State";
+    public static final String DATE_OF_AQUISITION = "Date of aquisition";
+    public static final String ADD_NEW_BOOK = "Add new book";
 }

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<Pane fx:id="pane" prefHeight="605.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.kamilsieczkowski.AddNewBookController">
+   <children>
+      <HBox layoutX="0.0" layoutY="564.0" prefHeight="42.0" prefWidth="440.0" spacing="200.0">
+         <children>
+            <Button fx:id="insertButton" mnemonicParsing="false" text="Insert">
+               <HBox.margin>
+                  <Insets left="70.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="endButton" mnemonicParsing="false" text="End">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <VBox layoutX="18.0" prefHeight="570.0" prefWidth="104.0" spacing="10.0">
+         <children>
+            <Label fx:id="signatureLabel" prefHeight="25.0" prefWidth="59.0" text="Signature">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="id_numberLabel" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="59.0" text="ID number" />
+            <Label fx:id="authorLabel" layoutX="10.0" layoutY="45.0" prefHeight="25.0" prefWidth="59.0" text="Author" />
+            <Label fx:id="titleLabel" layoutX="10.0" layoutY="80.0" prefHeight="25.0" prefWidth="59.0" text="Title" />
+            <Label fx:id="isbnLabel" layoutX="10.0" layoutY="115.0" prefHeight="25.0" prefWidth="59.0" text="ISBN/ISSN" />
+            <Label fx:id="keyWordsLabel" layoutX="10.0" layoutY="150.0" prefHeight="25.0" prefWidth="59.0" text="Key words" />
+            <Label fx:id="yearOfRelaseLabel" layoutX="10.0" layoutY="185.0" prefHeight="25.0" prefWidth="80.0" text="Year of relase" />
+            <Label fx:id="tomeLabel" layoutX="10.0" layoutY="220.0" prefHeight="25.0" prefWidth="80.0" text="Tome" />
+            <Label fx:id="valueLabel" layoutX="10.0" layoutY="255.0" prefHeight="25.0" prefWidth="80.0" text="Value" />
+            <Label fx:id="publisherLabel" layoutX="10.0" layoutY="290.0" prefHeight="25.0" prefWidth="80.0" text="Publisher" />
+            <Label fx:id="descriptionLabel" layoutX="10.0" layoutY="325.0" prefHeight="25.0" prefWidth="80.0" text="Description" />
+            <Label fx:id="topicLabel" layoutX="10.0" layoutY="360.0" prefHeight="25.0" prefWidth="80.0" text="Topic" />
+            <Label fx:id="localizationLabel" layoutX="10.0" layoutY="395.0" prefHeight="25.0" prefWidth="80.0" text="Localization" />
+            <Label fx:id="typeLabel" layoutX="10.0" layoutY="430.0" prefHeight="25.0" prefWidth="80.0" text="Type" />
+            <Label fx:id="stateLabel" layoutX="10.0" layoutY="465.0" prefHeight="25.0" prefWidth="80.0" text="State" />
+            <Label fx:id="dateOfAcquisitionLabel" layoutX="10.0" layoutY="500.0" prefHeight="25.0" prefWidth="101.0" text="Date of acquisition" />
+         </children>
+      </VBox>
+      <VBox layoutX="123.0" prefHeight="570.0" prefWidth="318.0" spacing="10.0">
+         <children>
+            <TextField fx:id="signatureTextField" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="id_numberTextField" layoutX="10.0" layoutY="20.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <TextField fx:id="authorTextField" layoutX="10.0" layoutY="55.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <TextField fx:id="titleTextField" layoutX="10.0" layoutY="90.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <TextField fx:id="isbnTextField" layoutX="10.0" layoutY="125.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <TextField fx:id="keywordsTextField" layoutX="10.0" layoutY="160.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <TextField fx:id="yearOfRelaseTextField" layoutX="10.0" layoutY="195.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <TextField fx:id="tomeTextField" layoutX="10.0" layoutY="230.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <TextField fx:id="valueTextField" layoutX="10.0" layoutY="265.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <TextField fx:id="publisherTextField" layoutX="10.0" layoutY="300.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <TextField fx:id="descriptionTextField" layoutX="10.0" layoutY="335.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0" />
+            <SplitMenuButton fx:id="topicMenuButton" mnemonicParsing="false" prefWidth="306.0">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </SplitMenuButton>
+            <SplitMenuButton fx:id="localizationMenuBotton" layoutX="10.0" layoutY="405.0" mnemonicParsing="false" prefWidth="306.0">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </SplitMenuButton>
+            <SplitMenuButton fx:id="typeMenuButton" layoutX="10.0" layoutY="440.0" mnemonicParsing="false" prefWidth="306.0">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </SplitMenuButton>
+            <SplitMenuButton fx:id="stateMenuButton" layoutX="10.0" layoutY="475.0" mnemonicParsing="false" prefWidth="306.0">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </SplitMenuButton>
+            <DatePicker fx:id="calendar" />
+         </children>
+      </VBox>
+   </children>
+</Pane>
