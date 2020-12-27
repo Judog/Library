@@ -43,7 +43,6 @@ public class LoginController implements Initializable {
         Login loginObject = new Login();
         loginButton.setOnAction(login -> {
             try {
-
                 checkUserAndPassword(loginObject);
             } catch (IOException | SQLException e) {
                 e.printStackTrace();
