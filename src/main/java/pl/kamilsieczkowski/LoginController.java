@@ -18,8 +18,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import static pl.kamilsieczkowski.constants.Texts.LOGGED_IN;
-import static pl.kamilsieczkowski.constants.Texts.LOGIN_FAILED;
+import static pl.kamilsieczkowski.constants.Texts.*;
 
 public class LoginController implements Initializable {
     @FXML
@@ -32,10 +31,15 @@ public class LoginController implements Initializable {
     private Button loginButton;
     @FXML
     private Label loginStatus;
+    @FXML
+    private Label passwordLabel;
+    @FXML
+    private Label userFieldLabel;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setWindowText();
         Login loginObject = new Login();
         loginButton.setOnAction(login -> {
             try {
@@ -44,6 +48,13 @@ public class LoginController implements Initializable {
                 e.printStackTrace();
             }
         });
+    }
+
+    private void setWindowText() {
+        passwordLabel.setText(PASSWORD);
+        userFieldLabel.setText(USER);
+        loginStatus.setText(LOGIN_STATUS);
+        loginButton.setText(LOGIN);
     }
 
     private void checkUserAndPassword(Login loginObject) throws IOException, SQLException {
