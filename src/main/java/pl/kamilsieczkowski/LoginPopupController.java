@@ -3,8 +3,12 @@ package pl.kamilsieczkowski;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import pl.kamilsieczkowski.DTO.Book;
+import pl.kamilsieczkowski.database.Connector;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static pl.kamilsieczkowski.constants.Texts.*;
@@ -25,21 +29,19 @@ public class LoginPopupController implements Initializable {
     @FXML
     private Button searchButton;
     @FXML
-    private TableColumn idNumberColumn;
+    private TableColumn<Book, Integer> idNumberColumn;
     @FXML
-    private TableColumn signatureColumn;
+    private TableColumn<Book, String> authorColumn;
     @FXML
-    private TableColumn authorColumn;
+    private TableColumn<Book, String> titleColumn;
     @FXML
-    private TableColumn titleColumn;
+    private TableColumn<Book, Integer> tomeColumn;
     @FXML
-    private TableColumn tomeColumn;
+    private TableColumn<Book, String> editionColumn;
     @FXML
-    private TableColumn conditionColumn;
+    private TableColumn<Book, String> localizationColumn;
     @FXML
-    private TableColumn editionColumn;
-    @FXML
-    private TableColumn localizationColumn;
+    private TableColumn<Book, String> keyWordsColumn;
     @FXML
     private Button borrowButton;
     @FXML
@@ -54,10 +56,34 @@ public class LoginPopupController implements Initializable {
     private Label foundLabel;
     @FXML
     private Label avabilityLabel;
+    @FXML
+    private TableView<Book> table;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();
+        Connector connector = new Connector();
+        try {
+            ViewTable(connector);
+            displayHowManyBooksFound(connector);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    void displayHowManyBooksFound(Connector connector) throws SQLException {
+        foundLabel.setText(FOUND + SPACE + connector.connectBooksDatabase().size());
+    }
+
+    void ViewTable(Connector connector) throws SQLException {
+        table.setItems(connector.connectBooksDatabase());
+        idNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id_book"));
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        keyWordsColumn.setCellValueFactory(new PropertyValueFactory<>("keyWords"));
+        tomeColumn.setCellValueFactory(new PropertyValueFactory<>("tome"));
+        editionColumn.setCellValueFactory(new PropertyValueFactory<>("edition"));
+        localizationColumn.setCellValueFactory(new PropertyValueFactory<>("localization"));
     }
 
     private void setWindowText() {
@@ -65,7 +91,7 @@ public class LoginPopupController implements Initializable {
         id_numberLabel.setText(ID_NUMBER);
         idNumberColumn.setText(ID_NUMBER);
         signatureLabel.setText(SIGNATURE);
-        signatureColumn.setText(SIGNATURE);
+        keyWordsColumn.setText(KEY_WORDS);
         authorLabel.setText(AUTHOR);
         authorColumn.setText(AUTHOR);
         titleLabel.setText(TITLE);
@@ -73,7 +99,6 @@ public class LoginPopupController implements Initializable {
         keyWordsLabel.setText(KEY_WORDS);
         searchButton.setText(SEARCH);
         tomeColumn.setText(TOME);
-        conditionColumn.setText(CONDITION);
         editionColumn.setText(EDITION);
         localizationColumn.setText(LOCALIZATION);
         borrowButton.setText(BORROW);
@@ -84,6 +109,5 @@ public class LoginPopupController implements Initializable {
         foundLabel.setText(FOUND);
         avabilityLabel.setText(AVABILITY);
     }
-
 }
 

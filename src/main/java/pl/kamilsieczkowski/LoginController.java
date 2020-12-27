@@ -43,11 +43,16 @@ public class LoginController implements Initializable {
         Login loginObject = new Login();
         loginButton.setOnAction(login -> {
             try {
+
                 checkUserAndPassword(loginObject);
             } catch (IOException | SQLException e) {
                 e.printStackTrace();
             }
         });
+    }
+
+    Stage getStage() {
+        return (Stage) window.getScene().getWindow();
     }
 
     private void setWindowText() {
@@ -60,13 +65,14 @@ public class LoginController implements Initializable {
     private void checkUserAndPassword(Login loginObject) throws IOException, SQLException {
         if (loginObject.isLoginSuccessful(loginField.getText(), passwordField.getText())) {
             newWindow();
+            getStage().close();
         } else {
             loginStatus.setText(LOGIN_FAILED);
         }
     }
 
     private void newWindow() throws IOException {
-        window = new Pane();
+        Pane pane = new Pane();
         Stage stage = new Stage();
         Parent content = FXMLLoader.load(getClass().getResource("/loginPopup.fxml"));
         Scene scene = new Scene(content);

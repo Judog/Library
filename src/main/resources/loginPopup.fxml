@@ -92,16 +92,15 @@
                                         </VBox>
                                     </children>
                                 </HBox>
-                                <TableView prefHeight="272.0">
+                                <TableView fx:id="table" prefHeight="272.0">
                                     <columns>
                                         <TableColumn fx:id="idNumberColumn" />
-                                        <TableColumn fx:id="signatureColumn" />
                                         <TableColumn fx:id="authorColumn" />
                                         <TableColumn fx:id="titleColumn" />
                                         <TableColumn fx:id="tomeColumn" />
                                         <TableColumn fx:id="editionColumn" />
-                                        <TableColumn fx:id="conditionColumn" />
                                         <TableColumn fx:id="localizationColumn" />
+                                        <TableColumn fx:id="keyWordsColumn" />
                                     </columns>
                                 </TableView>
                                 <HBox prefHeight="40.0">

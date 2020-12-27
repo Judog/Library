@@ -25,4 +25,5 @@ public class Texts {
     public static final String AVABILITY = "Avability:";
     public static final String PASSWORD = "Password:";
     public static final String USER = "User:";
+    public static final String SPACE = " ";
 }
