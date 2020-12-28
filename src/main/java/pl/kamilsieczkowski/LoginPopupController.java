@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pl.kamilsieczkowski.DTO.Book;
+import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
 
 import java.net.URL;
@@ -62,21 +63,21 @@ public class LoginPopupController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();
-        Connector connector = new Connector();
+        BookRepository bookRepository= new BookRepository();
         try {
-            ViewTable(connector);
-            displayHowManyBooksFound(connector);
-        } catch (SQLException exception) {
+            ViewTable(bookRepository);
+            displayHowManyBooksFound(bookRepository);
+        } catch (Throwable exception) {
             exception.printStackTrace();
         }
     }
 
-    void displayHowManyBooksFound(Connector connector) throws SQLException {
-        foundLabel.setText(FOUND + SPACE + connector.connectBooksDatabase().size());
+    void displayHowManyBooksFound(BookRepository bookRepository) throws Throwable {
+        foundLabel.setText(FOUND + SPACE + bookRepository.connectBooksDatabase().size());
     }
 
-    void ViewTable(Connector connector) throws SQLException {
-        table.setItems(connector.connectBooksDatabase());
+    void ViewTable(BookRepository bookRepository) throws Throwable {
+        table.setItems(bookRepository.connectBooksDatabase());
         idNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id_book"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
