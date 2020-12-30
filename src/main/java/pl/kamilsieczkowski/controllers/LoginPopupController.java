@@ -7,6 +7,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import pl.kamilsieczkowski.DTO.Book;
 import pl.kamilsieczkowski.database.BookRepository;
+import pl.kamilsieczkowski.database.Connector;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.io.IOException;
@@ -68,7 +69,7 @@ public class LoginPopupController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Window window = new Window();
         setWindowText();
-        BookRepository bookRepository = new BookRepository();
+        BookRepository bookRepository = new BookRepository(new Connector());
         addNewButton.setOnAction(event -> {
             try {
                 window.openLibraryWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
@@ -87,11 +88,11 @@ public class LoginPopupController implements Initializable {
     }
 
     void displayHowManyBooksFound(BookRepository bookRepository) throws Throwable {
-        foundLabel.setText(FOUND + SPACE + bookRepository.downloadBookList().size());
+        foundLabel.setText(FOUND + SPACE + bookRepository.getAllBooks().size());
     }
 
     void ViewTable(BookRepository bookRepository) throws Throwable {
-        table.setItems(bookRepository.downloadBookList());
+        table.setItems(bookRepository.getAllBooks());
         idNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id_book"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));

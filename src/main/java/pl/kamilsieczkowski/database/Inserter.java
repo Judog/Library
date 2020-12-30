@@ -1,14 +1,11 @@
 package pl.kamilsieczkowski.database;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.sql.*;
 
-import static pl.kamilsieczkowski.constants.Constants.QUERY_INSERT;
-
-public class Inserter extends Connector {
+public class Inserter {
     @FXML
     private TextField id_numberTextField;
     @FXML
@@ -21,32 +18,36 @@ public class Inserter extends Connector {
     private TextField editionTextField;
     @FXML
     private TextField tomeTextField;
+    private Connector connector;
 
     public Inserter(TextField id_numberTextField, TextField authorTextField,
                     TextField titleTextField, TextField keywordsTextField,
-                    TextField editionTextField, TextField tomeTextField) {
+                    TextField editionTextField, TextField tomeTextField, Connector connector) {
         this.id_numberTextField = id_numberTextField;
         this.authorTextField = authorTextField;
         this.titleTextField = titleTextField;
         this.keywordsTextField = keywordsTextField;
         this.editionTextField = editionTextField;
         this.tomeTextField = tomeTextField;
+        this.connector = connector;
     }
 
     public void insertIntoDatabase(String enteredQuery) throws SQLException {
-        Connection con = connectIntoDatabase();
+        Connection con = connector.connectIntoDatabase();
         Statement st = con.createStatement();
         st.executeUpdate(enteredQuery);
         con.close();
     }
-    public void insertBook() throws Throwable {
+
+    public void insertBook() {
+        String queryInsert = "INSERT INTO library_users.books VALUES (";
         String book_id = id_numberTextField.getText();
         String author = authorTextField.getText();
         String title = titleTextField.getText();
         String keyWords = keywordsTextField.getText();
         String edition = editionTextField.getText();
         String tome = tomeTextField.getText();
-        String enteredQuery = QUERY_INSERT + "'" + book_id + "', '" +
+        String enteredQuery = queryInsert + "'" + book_id + "', '" +
                 author + "', '" + title + "', '" + keyWords + "', '" +
                 tome + "', '" + edition + "', '" + "library'" + ");";
         try {

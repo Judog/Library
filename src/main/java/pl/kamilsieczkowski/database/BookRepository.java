@@ -8,10 +8,16 @@ import java.sql.ResultSet;
 
 import static pl.kamilsieczkowski.constants.Constants.*;
 
-public class BookRepository extends Connector {
+public class BookRepository {
+    private Connector connector;
 
-    public ObservableList<Book> downloadBookList() throws Throwable {
-        ResultSet resultSet = downloadFromDatabase(QUERY_ALL_BOOKS);
+    public BookRepository(Connector connector) {
+        this.connector = connector;
+    }
+
+    public ObservableList<Book> getAllBooks() throws Throwable {
+        String queryGetAllBooks = "SELECT * FROM library_users.books;";
+        ResultSet resultSet = connector.downloadFromDatabase(queryGetAllBooks);
         ObservableList<Book> bookList = FXCollections.observableArrayList();
         while (resultSet.next()) {
             int id_books = resultSet.getInt(COLUMN_ID_BOOK);

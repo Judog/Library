@@ -11,9 +11,6 @@ public class Constants {
     public static final String COLUMN_TOME = "tome";
     public static final String COLUMN_EDITION = "edition";
     public static final String COLUMN_LOCALIZATION = "localization";
-    public static final String QUERY_ALL_BOOKS = "SELECT * FROM library_users.books;";
-    public static final String QUERY_USER = "SELECT * FROM library_users.users WHERE username='";
-    public static final String QUERY_INSERT = "INSERT INTO library_users.books VALUES (";
     public static final String SOURCE_ADD_NEW_BOOK_WINDOW = "/addNewBook.fxml";
     public static final String SOURCE_LIBRARY_WINDOW = "/loginPopup.fxml";
 }

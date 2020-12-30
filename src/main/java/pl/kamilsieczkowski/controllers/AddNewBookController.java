@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import pl.kamilsieczkowski.database.BookRepository;
+import pl.kamilsieczkowski.database.Connector;
 import pl.kamilsieczkowski.database.Inserter;
 import pl.kamilsieczkowski.utils.Window;
 
@@ -71,7 +72,8 @@ public class AddNewBookController implements Initializable {
         Window window = new Window();
         setWindowText();
         try {
-            id_numberTextField.setText(setDefaultBookIdentifier(new BookRepository()));
+            BookRepository bookRepository = new BookRepository(new Connector());
+            id_numberTextField.setText(setDefaultBookIdentifier(bookRepository));
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -86,7 +88,7 @@ public class AddNewBookController implements Initializable {
         insertButton.setOnAction(event -> {
             try {
                 Inserter inserter = new Inserter(id_numberTextField, authorTextField,
-                        titleTextField, keywordsTextField, editionTextField, tomeTextField);
+                        titleTextField, keywordsTextField, editionTextField, tomeTextField, new Connector());
                 inserter.insertBook();
                 window.openLibraryWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
                 window.getWindow(pane).close();
@@ -98,7 +100,7 @@ public class AddNewBookController implements Initializable {
     }
 
     private String setDefaultBookIdentifier(BookRepository bookRepository) throws Throwable {
-        return Integer.toString(bookRepository.downloadBookList().size() + 1);
+        return Integer.toString(bookRepository.getAllBooks().size() + 1);
     }
 
     private void setWindowText() {
