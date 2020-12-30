@@ -1,4 +1,4 @@
-package pl.kamilsieczkowski;
+package pl.kamilsieczkowski.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,6 +50,10 @@ public class LoginController implements Initializable {
         });
     }
 
+    Stage getStage() {
+        return (Stage) window.getScene().getWindow();
+    }
+
     private void setWindowText() {
         passwordLabel.setText(PASSWORD);
         userFieldLabel.setText(USER);
@@ -60,13 +64,14 @@ public class LoginController implements Initializable {
     private void checkUserAndPassword(Login loginObject) throws IOException, SQLException {
         if (loginObject.isLoginSuccessful(loginField.getText(), passwordField.getText())) {
             newWindow();
+            getStage().close();
         } else {
             loginStatus.setText(LOGIN_FAILED);
         }
     }
 
     private void newWindow() throws IOException {
-        window = new Pane();
+        Pane pane = new Pane();
         Stage stage = new Stage();
         Parent content = FXMLLoader.load(getClass().getResource("/loginPopup.fxml"));
         Scene scene = new Scene(content);

@@ -36,4 +36,5 @@ public class Texts {
     public static final String STATE = "State";
     public static final String DATE_OF_AQUISITION = "Date of aquisition";
     public static final String ADD_NEW_BOOK = "Add new book";
+    public static final String SPACE = " ";
 }
