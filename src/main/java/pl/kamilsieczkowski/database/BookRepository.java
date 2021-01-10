@@ -2,9 +2,10 @@ package pl.kamilsieczkowski.database;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import pl.kamilsieczkowski.DTO.Book;
+import pl.kamilsieczkowski.POJO.Book;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static pl.kamilsieczkowski.constants.Constants.*;
 
@@ -15,7 +16,7 @@ public class BookRepository {
         this.connector = connector;
     }
 
-    public ObservableList<Book> getAllBooks() throws Throwable {
+    public ObservableList<Book> getAllBooks() throws SQLException {
         String queryGetAllBooks = "SELECT * FROM library_users.books;";
         ResultSet resultSet = connector.downloadFromDatabase(queryGetAllBooks);
         ObservableList<Book> bookList = FXCollections.observableArrayList();
@@ -27,7 +28,15 @@ public class BookRepository {
             int tome = resultSet.getInt(COLUMN_TOME);
             String edition = resultSet.getString(COLUMN_EDITION);
             String localization = resultSet.getString(COLUMN_LOCALIZATION);
-            bookList.add(new Book(id_books, author, title, keyWords, tome, edition, localization));
+            bookList.add(new Book.BookBuilder()
+                    .setId_book(id_books)
+                    .setAuthor(author)
+                    .setTitle(title)
+                    .setKeyWords(keyWords)
+                    .setTome(tome)
+                    .setEdition(edition)
+                    .setLocalization(localization)
+                    .createBook());
         }
         return bookList;
     }

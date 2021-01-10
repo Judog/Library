@@ -1,4 +1,4 @@
-package pl.kamilsieczkowski.utils;
+package pl.kamilsieczkowski.POJO;
 
 import java.util.Objects;
 

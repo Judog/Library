@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <Pane fx:id="popupPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="pl.kamilsieczkowski.controllers.LoginPopupController">
+      fx:controller="pl.kamilsieczkowski.controllers.LibraryWindowController">
     <TabPane tabClosingPolicy="UNAVAILABLE">
         <tabs>
             <Tab fx:id="publicationsTab">
