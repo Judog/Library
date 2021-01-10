@@ -13,6 +13,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.SplitMenuButton?>
+<?import com.sun.javafx.scene.control.skin.ContextMenuContent.ArrowMenuItem?>
+<?import javafx.scene.control.MenuItem?>
 <Pane fx:id="popupPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="pl.kamilsieczkowski.controllers.LibraryWindowController">
     <TabPane tabClosingPolicy="UNAVAILABLE">
@@ -27,7 +30,7 @@
                                         <VBox spacing="5.0">
                                             <children>
                                                 <Label fx:id="id_numberLabel" prefHeight="25.0" prefWidth="60.0"/>
-                                                <Label fx:id="signatureLabel" prefHeight="25.0" prefWidth="60.0"/>
+                                                <Label fx:id="placementLabel" prefHeight="25.0" prefWidth="60.0"/>
                                             </children>
                                             <HBox.margin>
                                                 <Insets left="5.0"/>
@@ -36,7 +39,13 @@
                                         <VBox spacing="5.0">
                                             <children>
                                                 <TextField fx:id="id_numberTextField"/>
-                                                <TextField fx:id="signatureTextField"/>
+                                                <SplitMenuButton fx:id="placementMenuButton">
+                                                    <items>
+                                                        <MenuItem fx:id="library" mnemonicParsing="false"/>
+                                                        <MenuItem fx:id="borrowed" mnemonicParsing="false"/>
+                                                        <MenuItem fx:id="all" mnemonicParsing="false"/>
+                                                    </items>
+                                                </SplitMenuButton>
                                             </children>
                                             <HBox.margin>
                                                 <Insets left="5.0"/>

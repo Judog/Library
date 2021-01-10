@@ -89,15 +89,16 @@ public class AddNewBookController implements Initializable {
     }
 
     private void clickOnInsertButton(Window window) {
-        BookInserterRepository bookInserterRepository = new BookInserterRepository.BookInserterRepositoryBuilder()
-                .setId_numberTextField(id_numberTextField)
-                .setAuthorTextField(authorTextField)
-                .setTitleTextField(titleTextField)
-                .setKeywordsTextField(keywordsTextField)
-                .setEditionTextField(editionTextField)
-                .setTomeTextField(tomeTextField)
-                .setConnector(new Connector())
-                .createInserter();
+        BookInserterRepository bookInserterRepository =
+                new BookInserterRepository.BookInserterRepositoryBuilder()
+                        .setId_numberTextField(id_numberTextField)
+                        .setAuthorTextField(authorTextField)
+                        .setTitleTextField(titleTextField)
+                        .setKeywordsTextField(keywordsTextField)
+                        .setEditionTextField(editionTextField)
+                        .setTomeTextField(tomeTextField)
+                        .setConnector(new Connector())
+                        .createInserter();
         insertNewBook(window, bookInserterRepository);
     }
 
@@ -113,11 +114,7 @@ public class AddNewBookController implements Initializable {
 
     private String setDefaultBookIdentifier(BookRepository bookRepository) {
         String bookIdentifier = "";
-        try {
-            bookIdentifier = Integer.toString(bookRepository.getAllBooks().size() + 1);
-        } catch (SQLException e) {
-            LOG.error(SQL_EXCEPTION + "AddNewBookController setDefaultBookIdentifier");
-        }
+        bookIdentifier = Integer.toString(bookRepository.getAllBooks().size() + 1);
         return bookIdentifier;
     }
 

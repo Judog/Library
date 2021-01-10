@@ -1,13 +1,17 @@
 package pl.kamilsieczkowski.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import pl.kamilsieczkowski.POJO.Book;
+import pl.kamilsieczkowski.constants.Texts;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
+import pl.kamilsieczkowski.database.SearchRepository;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
@@ -24,7 +28,7 @@ public class LibraryWindowController implements Initializable {
     @FXML
     private Label id_numberLabel;
     @FXML
-    private Label signatureLabel;
+    private Label placementLabel;
     @FXML
     private Label authorLabel;
     @FXML
@@ -68,7 +72,13 @@ public class LibraryWindowController implements Initializable {
     @FXML
     private TextField id_numberTextField;
     @FXML
-    private TextField signatureTextField;
+    private SplitMenuButton placementMenuButton;
+    @FXML
+    private MenuItem library;
+    @FXML
+    private MenuItem borrowed;
+    @FXML
+    private MenuItem all;
     @FXML
     private TextField authorTextField;
     @FXML
@@ -87,29 +97,47 @@ public class LibraryWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //displayed things
         setWindowText();
+        displayHowManyBooksFound(bookRepository.getAllBooks());
+        viewTable(bookRepository, bookRepository.getAllBooks());
+        //buttons
+        searchButton.setOnAction(event -> {
+            searchBooks();
+        });
         addNewButton.setOnAction(event -> {
             window.closeWindow(popupPane);
             window.openNewWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
         });
-        viewTable(bookRepository);
-        displayHowManyBooksFound(bookRepository);
     }
 
-    void displayHowManyBooksFound(BookRepository bookRepository) {
+    private void searchBooks() {
+        SearchRepository searchRepository = new SearchRepository.SearchRepositoryBuilder()
+                .setId_number(id_numberTextField.getText())
+                .setAuthor(authorTextField.getText())
+                .setPlacement(placementMenuButton.getText())
+                .setTitle(titleTextField.getText())
+                .setKeyWords(keyWordsTextField.getText())
+                .createSearchRepository();
+        //empty list
+        ObservableList<Book> searchedBookList = FXCollections.observableArrayList();
         try {
-            foundLabel.setText(FOUND + SPACE + bookRepository.getAllBooks().size());
-        } catch (SQLException e) {
-            LOG.error(SQL_EXCEPTION + "LibraryWindowController displayHowManyBooks");
+            //book list
+            searchedBookList = searchRepository.getSearchedBooks(new Connector());
+        } catch (SQLException sqlException) {
+            LOG.error(SQL_EXCEPTION + "LibraryWindowController searchBooks");
         }
+        //viewers
+        viewTable(new BookRepository(new Connector()), searchedBookList);
+        displayHowManyBooksFound(searchedBookList);
     }
 
-    void viewTable(BookRepository bookRepository) {
-        try {
-            table.setItems(bookRepository.getAllBooks());
-        } catch (SQLException e) {
-            LOG.error(SQL_EXCEPTION+"LibraryWindowController viewTable");
-        }
+    void displayHowManyBooksFound(ObservableList<Book> observableList) {
+        foundLabel.setText(FOUND + SPACE + observableList.size());
+    }
+
+    void viewTable(BookRepository bookRepository, ObservableList<Book> observableList) {
+        table.setItems(observableList);
         idNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id_book"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -123,7 +151,7 @@ public class LibraryWindowController implements Initializable {
         publicationsTab.setText(PUBLICATIONS);
         id_numberLabel.setText(ID_NUMBER);
         idNumberColumn.setText(ID_NUMBER);
-        signatureLabel.setText(SIGNATURE);
+        placementLabel.setText(Texts.LOCALIZATION);
         keyWordsColumn.setText(KEY_WORDS);
         authorLabel.setText(AUTHOR);
         authorColumn.setText(AUTHOR);
@@ -141,6 +169,10 @@ public class LibraryWindowController implements Initializable {
         addNewButton.setText(ADD_NEW);
         foundLabel.setText(FOUND);
         avabilityLabel.setText(AVABILITY);
+        placementMenuButton.setText(ALL);
+        library.setText(IN_LIBRARY);
+        borrowed.setText(BORROWED);
+        all.setText(ALL);
     }
 }
 

@@ -16,27 +16,31 @@ public class BookRepository {
         this.connector = connector;
     }
 
-    public ObservableList<Book> getAllBooks() throws SQLException {
+    public ObservableList<Book> getAllBooks() {
         String queryGetAllBooks = "SELECT * FROM library_users.books;";
         ResultSet resultSet = connector.downloadFromDatabase(queryGetAllBooks);
         ObservableList<Book> bookList = FXCollections.observableArrayList();
-        while (resultSet.next()) {
-            int id_books = resultSet.getInt(COLUMN_ID_BOOK);
-            String author = resultSet.getString(COLUMN_AUTHOR);
-            String title = resultSet.getString(COLUMN_TITLE);
-            String keyWords = resultSet.getString(COLUMN_KEY_WORDS);
-            int tome = resultSet.getInt(COLUMN_TOME);
-            String edition = resultSet.getString(COLUMN_EDITION);
-            String localization = resultSet.getString(COLUMN_LOCALIZATION);
-            bookList.add(new Book.BookBuilder()
-                    .setId_book(id_books)
-                    .setAuthor(author)
-                    .setTitle(title)
-                    .setKeyWords(keyWords)
-                    .setTome(tome)
-                    .setEdition(edition)
-                    .setLocalization(localization)
-                    .createBook());
+        try {
+            while (resultSet.next()) {
+                int id_books = resultSet.getInt(COLUMN_ID_BOOK);
+                String author = resultSet.getString(COLUMN_AUTHOR);
+                String title = resultSet.getString(COLUMN_TITLE);
+                String keyWords = resultSet.getString(COLUMN_KEY_WORDS);
+                int tome = resultSet.getInt(COLUMN_TOME);
+                String edition = resultSet.getString(COLUMN_EDITION);
+                String localization = resultSet.getString(COLUMN_LOCALIZATION);
+                bookList.add(new Book.BookBuilder()
+                        .setId_book(id_books)
+                        .setAuthor(author)
+                        .setTitle(title)
+                        .setKeyWords(keyWords)
+                        .setTome(tome)
+                        .setEdition(edition)
+                        .setLocalization(localization)
+                        .createBook());
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return bookList;
     }

@@ -7,7 +7,6 @@ public class Texts {
     public static final String LOGGED_IN = "logged in";
     public static final String PUBLICATIONS = "Publications";
     public static final String ID_NUMBER = "ID number";
-    public static final String SIGNATURE = "Signature";
     public static final String AUTHOR = "Author";
     public static final String TITLE = "Title";
     public static final String KEY_WORDS = "Key words";
@@ -15,7 +14,7 @@ public class Texts {
     public static final String TOME = "Tome";
     public static final String CONDITION = "Condition";
     public static final String EDITION = "Edition";
-    public static final String LOCALIZATION = "Localization";
+    public static final String LOCALIZATION = "Placement";
     public static final String BORROW = "Borrow";
     public static final String RETURN = "Return";
     public static final String PROLONG = "Prolong";
@@ -38,4 +37,8 @@ public class Texts {
     public static final String ADD_NEW_BOOK = "Add new book";
     public static final String SPACE = " ";
     public static final String SQL_EXCEPTION ="SQLException";
+    public static final String PLACEMENT ="Placement";
+    public static final String IN_LIBRARY ="In library";
+    public static final String BORROWED ="Borrowed";
+    public static final String ALL ="All";
 }
