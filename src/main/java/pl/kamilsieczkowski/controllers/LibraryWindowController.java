@@ -5,19 +5,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import pl.kamilsieczkowski.DTO.Book;
+import pl.kamilsieczkowski.POJO.Book;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
 import pl.kamilsieczkowski.utils.Window;
 
-import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import static pl.kamilsieczkowski.constants.Constants.LOG;
 import static pl.kamilsieczkowski.constants.Constants.SOURCE_ADD_NEW_BOOK_WINDOW;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
-public class LoginPopupController implements Initializable {
+public class LibraryWindowController implements Initializable {
     @FXML
     private Tab publicationsTab;
     @FXML
@@ -64,35 +65,51 @@ public class LoginPopupController implements Initializable {
     private TableView<Book> table;
     @FXML
     private Pane popupPane;
+    @FXML
+    private TextField id_numberTextField;
+    @FXML
+    private TextField signatureTextField;
+    @FXML
+    private TextField authorTextField;
+    @FXML
+    private TextField titleTextField;
+    @FXML
+    private TextField keyWordsTextField;
+    private Connector connector;
+    private Window window;
+    private BookRepository bookRepository;
+
+    public LibraryWindowController() {
+        this.connector = new Connector();
+        this.window = new Window();
+        this.bookRepository = new BookRepository(connector);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Window window = new Window();
         setWindowText();
-        BookRepository bookRepository = new BookRepository(new Connector());
         addNewButton.setOnAction(event -> {
-            try {
-                window.openLibraryWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            window.getWindow(popupPane).close();
+            window.closeWindow(popupPane);
+            window.openNewWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
         });
-        try {
-            ViewTable(bookRepository);
-            displayHowManyBooksFound(bookRepository);
+        viewTable(bookRepository);
+        displayHowManyBooksFound(bookRepository);
+    }
 
-        } catch (Throwable exception) {
-            exception.printStackTrace();
+    void displayHowManyBooksFound(BookRepository bookRepository) {
+        try {
+            foundLabel.setText(FOUND + SPACE + bookRepository.getAllBooks().size());
+        } catch (SQLException e) {
+            LOG.error(SQL_EXCEPTION + "LibraryWindowController displayHowManyBooks");
         }
     }
 
-    void displayHowManyBooksFound(BookRepository bookRepository) throws Throwable {
-        foundLabel.setText(FOUND + SPACE + bookRepository.getAllBooks().size());
-    }
-
-    void ViewTable(BookRepository bookRepository) throws Throwable {
-        table.setItems(bookRepository.getAllBooks());
+    void viewTable(BookRepository bookRepository) {
+        try {
+            table.setItems(bookRepository.getAllBooks());
+        } catch (SQLException e) {
+            LOG.error(SQL_EXCEPTION+"LibraryWindowController viewTable");
+        }
         idNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id_book"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));

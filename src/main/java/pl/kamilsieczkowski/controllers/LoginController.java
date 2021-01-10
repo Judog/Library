@@ -1,28 +1,26 @@
 package pl.kamilsieczkowski.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import pl.kamilsieczkowski.login.Login;
+import pl.kamilsieczkowski.utils.Window;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import static pl.kamilsieczkowski.constants.Constants.LOG;
+import static pl.kamilsieczkowski.constants.Constants.SOURCE_LIBRARY_WINDOW;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
 public class LoginController implements Initializable {
     @FXML
-    private Pane window;
+    private Pane pane;
     @FXML
     private TextField loginField;
     @FXML
@@ -36,22 +34,13 @@ public class LoginController implements Initializable {
     @FXML
     private Label userFieldLabel;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();
-        Login loginObject = new Login();
-        loginButton.setOnAction(login -> {
-            try {
-                checkUserAndPassword(loginObject);
-            } catch (IOException | SQLException e) {
-                e.printStackTrace();
-            }
-        });
-    }
 
-    Stage getStage() {
-        return (Stage) window.getScene().getWindow();
+        loginButton.setOnAction(login -> {
+            checkUserAndPassword(new Login(), new Window());
+        });
     }
 
     private void setWindowText() {
@@ -61,22 +50,16 @@ public class LoginController implements Initializable {
         loginButton.setText(LOGIN);
     }
 
-    private void checkUserAndPassword(Login loginObject) throws IOException, SQLException {
-        if (loginObject.isLoginSuccessful(loginField.getText(), passwordField.getText())) {
-            newWindow();
-            getStage().close();
-        } else {
-            loginStatus.setText(LOGIN_FAILED);
+    private void checkUserAndPassword(Login loginObject, Window window) {
+        try {
+            if (loginObject.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
+                window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
+                window.closeWindow(this.pane);
+            } else {
+                loginStatus.setText(LOGIN_FAILED);
+            }
+        } catch (SQLException e) {
+            LOG.error(SQL_EXCEPTION + " Login Controller");
         }
-    }
-
-    private void newWindow() throws IOException {
-        Pane pane = new Pane();
-        Stage stage = new Stage();
-        Parent content = FXMLLoader.load(getClass().getResource("/loginPopup.fxml"));
-        Scene scene = new Scene(content);
-        stage.setTitle(LOGGED_IN);
-        stage.setScene(scene);
-        stage.show();
     }
 }

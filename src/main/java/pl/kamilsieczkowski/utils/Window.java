@@ -13,13 +13,23 @@ public class Window {
         return (Stage) pane.getScene().getWindow();
     }
 
-    public void openLibraryWindow(String windowSource, String windowTitle) throws IOException {
+    public void openNewWindow(String windowSource, String windowTitle) {
         Pane window = new Pane();
         Stage stage = new Stage();
-        Parent content = FXMLLoader.load(getClass().getResource(windowSource));
+        Parent content = null;
+        try {
+            content = FXMLLoader.load(getClass().getResource(windowSource));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (content == null) throw new AssertionError();
         Scene scene = new Scene(content);
         stage.setTitle(windowTitle);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void closeWindow(Pane pane) {
+        getWindow(pane).close();
     }
 }
