@@ -42,6 +42,7 @@ public class BookRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        connector.closeConnection();
         return bookList;
     }
 }

@@ -51,6 +51,7 @@ public class BookInserterRepository {
         } catch (SQLException e) {
             LOG.error(SQL_EXCEPTION + " BookInserterRepository insertBook");
         }
+        connector.closeConnection();
     }
 
     public static class BookInserterRepositoryBuilder {
