@@ -2,6 +2,8 @@ package pl.kamilsieczkowski.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -85,14 +87,12 @@ public class LibraryWindowController implements Initializable {
     private TextField titleTextField;
     @FXML
     private TextField keyWordsTextField;
-    private Connector connector;
-    private Window window;
-    private BookRepository bookRepository;
+    private final Window window;
+    private final BookRepository bookRepository;
 
     public LibraryWindowController() {
-        this.connector = new Connector();
         this.window = new Window();
-        this.bookRepository = new BookRepository(connector);
+        this.bookRepository = new BookRepository(new Connector());
     }
 
     @Override
@@ -100,18 +100,28 @@ public class LibraryWindowController implements Initializable {
         //displayed things
         setWindowText();
         displayHowManyBooksFound(bookRepository.getAllBooks());
-        viewTable(bookRepository, bookRepository.getAllBooks());
+        viewTable(bookRepository.getAllBooks());
         //buttons
         searchButton.setOnAction(event -> {
-            searchBooks();
+            searchBooks(new Connector());
         });
         addNewButton.setOnAction(event -> {
             window.closeWindow(popupPane);
             window.openNewWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
         });
+        //Split Menu Button (placement Menu Button) functionality
+        library.setOnAction(event -> {
+            placementMenuButton.setText(IN_LIBRARY);
+        });
+        borrowed.setOnAction(event -> {
+            placementMenuButton.setText(BORROWED);
+        });
+        all.setOnAction(event -> {
+            placementMenuButton.setText(ALL);
+        });
     }
 
-    private void searchBooks() {
+    private void searchBooks(Connector connector) {
         SearchRepository searchRepository = new SearchRepository.SearchRepositoryBuilder()
                 .setId_number(id_numberTextField.getText())
                 .setAuthor(authorTextField.getText())
@@ -123,12 +133,14 @@ public class LibraryWindowController implements Initializable {
         ObservableList<Book> searchedBookList = FXCollections.observableArrayList();
         try {
             //book list
-            searchedBookList = searchRepository.getSearchedBooks(new Connector());
+            searchedBookList = searchRepository.getSearchedBooks(connector);
         } catch (SQLException sqlException) {
             LOG.error(SQL_EXCEPTION + "LibraryWindowController searchBooks");
+        } finally {
+            connector.closeConnection();
         }
         //viewers
-        viewTable(new BookRepository(new Connector()), searchedBookList);
+        viewTable(searchedBookList);
         displayHowManyBooksFound(searchedBookList);
     }
 
@@ -136,7 +148,7 @@ public class LibraryWindowController implements Initializable {
         foundLabel.setText(FOUND + SPACE + observableList.size());
     }
 
-    void viewTable(BookRepository bookRepository, ObservableList<Book> observableList) {
+    void viewTable(ObservableList<Book> observableList) {
         table.setItems(observableList);
         idNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id_book"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));

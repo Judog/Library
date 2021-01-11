@@ -38,7 +38,7 @@ public class Texts {
     public static final String SPACE = " ";
     public static final String SQL_EXCEPTION ="SQLException";
     public static final String PLACEMENT ="Placement";
-    public static final String IN_LIBRARY ="In library";
+    public static final String IN_LIBRARY ="library";
     public static final String BORROWED ="Borrowed";
     public static final String ALL ="All";
 }

@@ -41,7 +41,7 @@ public class Connector {
         return con;
     }
 
-    void closeConnection() {
+    public void closeConnection() {
         String CLOSE_CONNECTION = "Connector closeConnection";
         try {
             executeQuery.close();

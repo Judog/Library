@@ -52,7 +52,7 @@ public class SearchRepository {
     private String getPlacement(String placement) {
         if (placement == "All") {
             placement = "";
-            // for searchnig in query, all meaning in library and borrowed -
+            // for searchning in query, all meaning in library and borrowed -
             // must be empty for searching result with library and borrowed placement
         }
         return placement;
