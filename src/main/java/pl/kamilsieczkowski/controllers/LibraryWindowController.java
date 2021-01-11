@@ -109,7 +109,7 @@ public class LibraryWindowController implements Initializable {
             window.closeWindow(popupPane);
             window.openNewWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
         });
-        //Split Menu Button (placement Menu Button) functionality
+        //Split Menu Button (placement Menu Button) functionality.
         library.setOnAction(event -> {
             placementMenuButton.setText(IN_LIBRARY);
         });
