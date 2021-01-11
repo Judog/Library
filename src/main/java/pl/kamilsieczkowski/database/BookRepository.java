@@ -38,6 +38,7 @@ public class BookRepository {
                     .setLocalization(localization)
                     .createBook());
         }
+        connector.closeConnection();
         return bookList;
     }
 }

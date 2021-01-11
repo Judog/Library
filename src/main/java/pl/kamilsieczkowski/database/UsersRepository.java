@@ -21,6 +21,7 @@ public class UsersRepository {
         String username = resultSet.getString("username");
         String password = resultSet.getString("password");
         String privilege = resultSet.getString("privilege");
+        connector.closeConnection();
         return new User(username, password, privilege);
     }
 }
