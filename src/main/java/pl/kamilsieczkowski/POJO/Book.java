@@ -1,6 +1,7 @@
 package pl.kamilsieczkowski.POJO;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 public class Book {
     private int id_book;
@@ -47,6 +48,19 @@ public class Book {
         this.tome = tome;
         this.edition = edition;
         this.localization = localization;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(getLocalization(), book.getLocalization());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getLocalization());
     }
 
     public static class BookBuilder {

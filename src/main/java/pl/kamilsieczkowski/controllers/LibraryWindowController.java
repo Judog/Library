@@ -100,6 +100,7 @@ public class LibraryWindowController implements Initializable {
         //displayed things
         setWindowText();
         displayHowManyBooksFound(bookRepository.getAllBooks());
+        displayAvabileBooksFound(bookRepository.getAllBooks());
         viewTable(bookRepository.getAllBooks());
         //buttons
         searchButton.setOnAction(event -> {
@@ -142,10 +143,27 @@ public class LibraryWindowController implements Initializable {
         //viewers
         viewTable(searchedBookList);
         displayHowManyBooksFound(searchedBookList);
+        displayAvabileBooksFound(searchedBookList);
     }
 
     void displayHowManyBooksFound(ObservableList<Book> observableList) {
         foundLabel.setText(FOUND + SPACE + observableList.size());
+    }
+
+    void displayAvabileBooksFound(ObservableList<Book> observableList) {
+        int numberOfBooksInLibrary = 0;
+        Book bookInLibrary = new Book.BookBuilder().setLocalization(IN_LIBRARY).createBook();
+        for (Book book : observableList) {
+            numberOfBooksInLibrary = getPlusOneWhenBookIsInLibrary(numberOfBooksInLibrary, bookInLibrary, book);
+        }
+        avabilityLabel.setText(AVABILITY + SPACE + numberOfBooksInLibrary);
+    }
+
+    private int getPlusOneWhenBookIsInLibrary(int numberOfBooksInLibrary, Book bookInLibrary, Book book) {
+        if (book.equals(bookInLibrary)) {
+            numberOfBooksInLibrary = numberOfBooksInLibrary + 1;
+        }
+        return numberOfBooksInLibrary;
     }
 
     void viewTable(ObservableList<Book> observableList) {
