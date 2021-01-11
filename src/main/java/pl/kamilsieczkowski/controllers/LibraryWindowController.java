@@ -92,8 +92,9 @@ public class LibraryWindowController implements Initializable {
             window.closeWindow(popupPane);
             window.openNewWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
         });
-        viewTable(bookRepository);
         displayHowManyBooksFound(bookRepository);
+        viewTable(bookRepository);
+
     }
 
     void displayHowManyBooksFound(BookRepository bookRepository) {
@@ -109,6 +110,8 @@ public class LibraryWindowController implements Initializable {
             table.setItems(bookRepository.getAllBooks());
         } catch (SQLException e) {
             LOG.error(SQL_EXCEPTION+"LibraryWindowController viewTable");
+        }finally {
+            connector.closeConnection();
         }
         idNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id_book"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
