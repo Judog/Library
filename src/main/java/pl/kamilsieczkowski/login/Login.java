@@ -2,7 +2,7 @@ package pl.kamilsieczkowski.login;
 
 import pl.kamilsieczkowski.database.Connector;
 import pl.kamilsieczkowski.database.UsersRepository;
-import pl.kamilsieczkowski.POJO.User;
+import pl.kamilsieczkowski.model.User;
 
 import java.sql.SQLException;
 

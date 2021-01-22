@@ -2,7 +2,7 @@ package pl.kamilsieczkowski.database;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import pl.kamilsieczkowski.POJO.Book;
+import pl.kamilsieczkowski.model.Book;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

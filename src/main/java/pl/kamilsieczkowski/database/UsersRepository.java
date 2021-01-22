@@ -1,6 +1,6 @@
 package pl.kamilsieczkowski.database;
 
-import pl.kamilsieczkowski.POJO.User;
+import pl.kamilsieczkowski.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

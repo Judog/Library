@@ -1,6 +1,5 @@
-package pl.kamilsieczkowski.POJO;
+package pl.kamilsieczkowski.model;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 public class Book {

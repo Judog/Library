@@ -2,14 +2,12 @@ package pl.kamilsieczkowski.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import pl.kamilsieczkowski.POJO.Book;
+import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.constants.Texts;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
@@ -103,23 +101,15 @@ public class LibraryWindowController implements Initializable {
         displayAvabileBooksFound(bookRepository.getAllBooks());
         viewTable(bookRepository.getAllBooks());
         //buttons
-        searchButton.setOnAction(event -> {
-            searchBooks(new Connector());
-        });
+        searchButton.setOnAction(event -> searchBooks(new Connector()));
         addNewButton.setOnAction(event -> {
             window.closeWindow(popupPane);
             window.openNewWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
         });
         //Split Menu Button (placement Menu Button) functionality.
-        library.setOnAction(event -> {
-            placementMenuButton.setText(IN_LIBRARY);
-        });
-        borrowed.setOnAction(event -> {
-            placementMenuButton.setText(BORROWED);
-        });
-        all.setOnAction(event -> {
-            placementMenuButton.setText(ALL);
-        });
+        library.setOnAction(event -> placementMenuButton.setText(IN_LIBRARY));
+        borrowed.setOnAction(event -> placementMenuButton.setText(BORROWED));
+        all.setOnAction(event -> placementMenuButton.setText(ALL));
     }
 
     private void searchBooks(Connector connector) {
