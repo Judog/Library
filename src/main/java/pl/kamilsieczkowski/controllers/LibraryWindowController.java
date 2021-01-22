@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.constants.Texts;
 import pl.kamilsieczkowski.database.BookRepository;
@@ -18,7 +20,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import static pl.kamilsieczkowski.constants.Constants.LOG;
 import static pl.kamilsieczkowski.constants.Constants.SOURCE_ADD_NEW_BOOK_WINDOW;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
@@ -87,6 +88,7 @@ public class LibraryWindowController implements Initializable {
     private TextField keyWordsTextField;
     private final Window window;
     private final BookRepository bookRepository;
+    public static final Logger LOG = LogManager.getLogger(LibraryWindowController.class);
 
     public LibraryWindowController() {
         this.window = new Window();
