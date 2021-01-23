@@ -23,6 +23,7 @@ public class UsersRepository {
     }
 
     public User connectUsersDatabase(String enteredLogin) throws SQLException {
+        this.isLoginExist = true;
         String enteredQuery = QUERY_USER + enteredLogin + "';"; // select row of entered login, from users database
         ResultSet resultSet = connector.downloadFromDatabase(enteredQuery);
         resultSet.next();// go to next (first) row
@@ -30,20 +31,11 @@ public class UsersRepository {
         String password = resultSet.getString(PASSWORD);
         String privilege = resultSet.getString(PRIVILEGE);
         connector.closeConnection();
-        if (resultSet.wasNull()) {
-            this.isLoginExist = false;
-        } else {
-            this.isLoginExist = true;
-        }
+        checkIsLoginExist(username, enteredLogin);
         return new User(username, password, privilege);
     }
-    // public boolean checkThatUsersExist(String enteredLogin){
-    //   String enteredQuery = QUERY_USER + enteredLogin + "';";
-    //   ResultSet resultSet = connector.downloadFromDatabase(enteredQuery);
-    //   resultSet.next();
-    //  String username = resultSet.getString(USERNAME);
-    //  if (username.equals(null)){
 
-    //    }if (enteredLogin.equals())
-    //  }
+    private void checkIsLoginExist(String userName, String enteredLogin) {
+        this.isLoginExist = userName.equals(enteredLogin);
+    }
 }

@@ -1,7 +1,5 @@
 package pl.kamilsieczkowski.constants;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class Constants {
     public static final String SERVER_URL = "jdbc:mysql://db4free.net:3306/library_users?serverTimezone=UTC";
@@ -16,5 +14,4 @@ public class Constants {
     public static final String COLUMN_LOCALIZATION = "localization";
     public static final String SOURCE_ADD_NEW_BOOK_WINDOW = "/addNewBook.fxml";
     public static final String SOURCE_LIBRARY_WINDOW = "/libraryWindow.fxml";
-    public static final Logger LOG = LogManager.getLogger();
 }

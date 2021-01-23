@@ -7,7 +7,7 @@ import pl.kamilsieczkowski.model.User;
 import java.sql.SQLException;
 
 public class Login {
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     public Login() {
         this.usersRepository = new UsersRepository(new Connector());
@@ -24,10 +24,6 @@ public class Login {
     }
 
     private boolean isUserAndPasswordCorrect(User databaseUser, User user) {
-        if (databaseUser.getLogin().equals(null)) {
-            return false;
-        } else {
             return user.equals(databaseUser);
-        }
     }
 }
