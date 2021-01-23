@@ -7,9 +7,18 @@ import pl.kamilsieczkowski.model.User;
 import java.sql.SQLException;
 
 public class Login {
+    private UsersRepository usersRepository;
+
+    public Login() {
+        this.usersRepository = new UsersRepository(new Connector());
+    }
+
+    public UsersRepository getUsersRepository() {
+        return usersRepository;
+    }
+
     public boolean isLoginSuccessful(String login, String password) throws SQLException {
         User user = new User(login, password, null);
-        UsersRepository usersRepository = new UsersRepository(new Connector());
         User databaseUser = usersRepository.connectUsersDatabase(login);
         return isUserAndPasswordCorrect(databaseUser, user);
     }

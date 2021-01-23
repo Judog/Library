@@ -89,7 +89,6 @@ public class BookRepository {
         } catch (SQLException e) {
             LOG.error(SQL_EXCEPTION + " BookInserterRepository insertBook");
         }
-        connector.closeConnection();
     }
 
     public static class BookRepositoryBuilder {

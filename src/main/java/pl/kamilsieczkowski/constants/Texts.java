@@ -31,4 +31,6 @@ public class Texts {
     public static final String IN_LIBRARY = "library";
     public static final String BORROWED = "Borrowed";
     public static final String ALL = "All";
+    public static final String CANT_CONNECT = "can't connect into the database";
+    public static final String LOGIN_DOESN_T_EXIST = "Login doesn't exist";
 }

@@ -12,6 +12,11 @@ public class UsersRepository {
     private final String USERNAME = "username";
     private final String PASSWORD = "password";
     private final String PRIVILEGE = "privilege";
+    public boolean isLoginExist;
+
+    public Connector getConnector() {
+        return connector;
+    }
 
     public UsersRepository(Connector connector) {
         this.connector = connector;
@@ -25,15 +30,20 @@ public class UsersRepository {
         String password = resultSet.getString(PASSWORD);
         String privilege = resultSet.getString(PRIVILEGE);
         connector.closeConnection();
+        if (resultSet.wasNull()) {
+            this.isLoginExist = false;
+        } else {
+            this.isLoginExist = true;
+        }
         return new User(username, password, privilege);
     }
-   // public boolean checkThatUsersExist(String enteredLogin){
-     //   String enteredQuery = QUERY_USER + enteredLogin + "';";
-     //   ResultSet resultSet = connector.downloadFromDatabase(enteredQuery);
-     //   resultSet.next();
-      //  String username = resultSet.getString(USERNAME);
-      //  if (username.equals(null)){
+    // public boolean checkThatUsersExist(String enteredLogin){
+    //   String enteredQuery = QUERY_USER + enteredLogin + "';";
+    //   ResultSet resultSet = connector.downloadFromDatabase(enteredQuery);
+    //   resultSet.next();
+    //  String username = resultSet.getString(USERNAME);
+    //  if (username.equals(null)){
 
     //    }if (enteredLogin.equals())
-  //  }
+    //  }
 }

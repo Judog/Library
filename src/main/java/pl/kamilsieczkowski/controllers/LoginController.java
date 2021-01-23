@@ -50,6 +50,8 @@ public class LoginController implements Initializable {
     }
 
     private void checkUserAndPassword(Login loginObject, Window window) {
+        check(isLoginDoesntExist(loginObject), LOGIN_DOESN_T_EXIST);
+        check(isNotConnectedToDatabase(loginObject), CANT_CONNECT);
         try {
             if (loginObject.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
                 window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
@@ -60,5 +62,20 @@ public class LoginController implements Initializable {
         } catch (SQLException e) {
             LOG.error(SQL_EXCEPTION + " Login Controller");
         }
+    }
+
+    private void check(boolean isIt, String text) {
+        if (isIt) {
+            loginStatus.setText(text);
+        }
+    }
+
+    private boolean isLoginDoesntExist(Login loginObject) {
+        return !loginObject.getUsersRepository().isLoginExist;
+    }
+
+
+    private boolean isNotConnectedToDatabase(Login loginObject) {
+        return !loginObject.getUsersRepository().getConnector().isConnectedToDatabase;
     }
 }

@@ -15,8 +15,9 @@ public class SearchRepository {
     private final String author;
     private final String title;
     private final String keyWords;
+    private final String QUERY = "SELECT * FROM library_users.books WHERE ";
 
-    SearchRepository(String id_number, String placement, String author, String title, String keyWords) {
+    private SearchRepository(String id_number, String placement, String author, String title, String keyWords) {
         this.id_number = id_number;
         this.placement = placement;
         this.author = author;
@@ -25,8 +26,7 @@ public class SearchRepository {
     }
 
     public ObservableList<Book> getSearchedBooks(Connector connector) throws SQLException {
-        String query = "SELECT * FROM library_users.books WHERE ";
-        String enteredQuery = query +
+        String enteredQuery = QUERY +
                 COLUMN_ID_BOOK + " LIKE '%" + this.id_number + "%' AND " +
                 COLUMN_AUTHOR + " LIKE '%" + this.author + "%' AND " +
                 COLUMN_TITLE + " LIKE '%" + this.title + "%' AND " +
