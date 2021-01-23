@@ -10,16 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static pl.kamilsieczkowski.constants.Constants.*;
-import static pl.kamilsieczkowski.constants.Constants.LOG;
 import static pl.kamilsieczkowski.constants.Texts.SQL_EXCEPTION;
 
 public class Connector {
     private Connection con;
     private PreparedStatement pst;
     private ResultSet executeQuery;
+    public static final Logger LOG = LogManager.getLogger(Connector.class);
 
     public Connector() {
-        this.con = connectIntoDatabase();
+        this.con = getDatabaseConnection();
     }
 
     public ResultSet downloadFromDatabase(String enteredQuery) {
@@ -32,7 +32,7 @@ public class Connector {
         return executeQuery;
     }
 
-    public Connection connectIntoDatabase() {
+    public Connection getDatabaseConnection() {
         try {
             this.con = DriverManager.getConnection(SERVER_URL, SERVER_USER, SERVER_PASSWORD);
         } catch (SQLException e) {
@@ -46,21 +46,21 @@ public class Connector {
         try {
             executeQuery.close();
         } catch (SQLException e) {
-            LoggerMessageAtExeptoptionInCloseConnection(CLOSE_CONNECTION);
+            LoggerMessageAtExceptionInCloseConnection(CLOSE_CONNECTION);
         }
         try {
             pst.close();
         } catch (SQLException e) {
-            LoggerMessageAtExeptoptionInCloseConnection(CLOSE_CONNECTION);
+            LoggerMessageAtExceptionInCloseConnection(CLOSE_CONNECTION);
         }
         try {
             con.close();
         } catch (SQLException e) {
-            LoggerMessageAtExeptoptionInCloseConnection(CLOSE_CONNECTION);
+            LoggerMessageAtExceptionInCloseConnection(CLOSE_CONNECTION);
         }
     }
 
-    private void LoggerMessageAtExeptoptionInCloseConnection(String CLOSE_CONNECTION) {
+    private void LoggerMessageAtExceptionInCloseConnection(String CLOSE_CONNECTION) {
         LOG.error(SQL_EXCEPTION + CLOSE_CONNECTION);
     }
 }

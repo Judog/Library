@@ -1,13 +1,13 @@
 package pl.kamilsieczkowski.model;
 
 public class Book {
-    private int id_book;
-    private String author;
-    private String title;
-    private String keyWords;
-    private int tome;
-    private String edition;
-    private String localization;
+    private final int id_book;
+    private final String author;
+    private final String title;
+    private final String keyWords;
+    private final int tome;
+    private final String edition;
+    private final String localization;
 
     public int getId_book() {
         return id_book;

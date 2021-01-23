@@ -65,7 +65,7 @@ public class LibraryWindowController implements Initializable {
     @FXML
     private Label foundLabel;
     @FXML
-    private Label avabilityLabel;
+    private Label availabilityLabel;
     @FXML
     private TableView<Book> table;
     @FXML
@@ -92,7 +92,9 @@ public class LibraryWindowController implements Initializable {
 
     public LibraryWindowController() {
         this.window = new Window();
-        this.bookRepository = new BookRepository(new Connector());
+        this.bookRepository = new BookRepository.BookRepositoryBuilder()
+                .setConnector(new Connector())
+                .createBookRepository();
     }
 
     @Override
@@ -100,7 +102,7 @@ public class LibraryWindowController implements Initializable {
         //displayed things
         setWindowText();
         displayHowManyBooksFound(bookRepository.getAllBooks());
-        displayAvabileBooksFound(bookRepository.getAllBooks());
+        displayAvailabileBooksFound(bookRepository.getAllBooks());
         viewTable(bookRepository.getAllBooks());
         //buttons
         searchButton.setOnAction(event -> searchBooks(new Connector()));
@@ -135,20 +137,20 @@ public class LibraryWindowController implements Initializable {
         //viewers
         viewTable(searchedBookList);
         displayHowManyBooksFound(searchedBookList);
-        displayAvabileBooksFound(searchedBookList);
+        displayAvailabileBooksFound(searchedBookList);
     }
 
     void displayHowManyBooksFound(ObservableList<Book> observableList) {
         foundLabel.setText(FOUND + SPACE + observableList.size());
     }
 
-    void displayAvabileBooksFound(ObservableList<Book> observableList) {
+    void displayAvailabileBooksFound(ObservableList<Book> observableList) {
         int numberOfBooksInLibrary = 0;
         Book bookInLibrary = new Book.BookBuilder().setLocalization(IN_LIBRARY).createBook();
         for (Book book : observableList) {
             numberOfBooksInLibrary = getPlusOneWhenBookIsInLibrary(numberOfBooksInLibrary, bookInLibrary, book);
         }
-        avabilityLabel.setText(AVABILITY + SPACE + numberOfBooksInLibrary);
+        availabilityLabel.setText(AVAILABILITY + SPACE + numberOfBooksInLibrary);
     }
 
     private int getPlusOneWhenBookIsInLibrary(int numberOfBooksInLibrary, Book bookInLibrary, Book book) {
@@ -190,7 +192,7 @@ public class LibraryWindowController implements Initializable {
         editDescriptionButton.setText(EDIT_DESCRIPTION);
         addNewButton.setText(ADD_NEW);
         foundLabel.setText(FOUND);
-        avabilityLabel.setText(AVABILITY);
+        availabilityLabel.setText(AVAILABILITY);
         placementMenuButton.setText(ALL);
         library.setText(IN_LIBRARY);
         borrowed.setText(BORROWED);

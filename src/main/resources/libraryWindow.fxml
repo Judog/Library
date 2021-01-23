@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.SplitMenuButton?>
-<?import com.sun.javafx.scene.control.skin.ContextMenuContent.ArrowMenuItem?>
 <?import javafx.scene.control.MenuItem?>
 <Pane fx:id="popupPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="pl.kamilsieczkowski.controllers.LibraryWindowController">
@@ -127,7 +126,7 @@
                                     <HBox spacing="15.0">
                                         <children>
                                             <Label fx:id="foundLabel"/>
-                                            <Label fx:id="avabilityLabel"/>
+                                            <Label fx:id="availabilityLabel"/>
                                         </children>
                                         <padding>
                                             <Insets left="5.0"/>

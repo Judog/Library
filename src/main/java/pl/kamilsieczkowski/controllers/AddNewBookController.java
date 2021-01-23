@@ -8,15 +8,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
-import pl.kamilsieczkowski.database.BookInserterRepository;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-
-import static pl.kamilsieczkowski.constants.Constants.LOG;
 import static pl.kamilsieczkowski.constants.Constants.SOURCE_LIBRARY_WINDOW;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
@@ -26,7 +22,7 @@ public class AddNewBookController implements Initializable {
     private Pane pane;
 
     @FXML
-    private Button insertButton;
+    private Button saveButton;
 
     @FXML
     private Button endButton;
@@ -70,17 +66,13 @@ public class AddNewBookController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();
-        id_numberTextField.setText(setDefaultBookIdentifier(getBookRepository()));
-        endButton.setOnAction(event -> {
-            clickOnEndButton(getWindow());
-        });
-        insertButton.setOnAction(event -> {
-            clickOnInsertButton(getWindow());
-        });
-    }
-
-    private Window getWindow() {
-        return new Window();
+        id_numberTextField.setText(setDefaultBookIdentifier(
+                new BookRepository
+                        .BookRepositoryBuilder()
+                        .setConnector(new Connector())
+                        .createBookRepository()));
+        endButton.setOnAction(event -> clickOnEndButton(new Window()));
+        saveButton.setOnAction(event -> clickOnSaveButton(new Window()));
     }
 
     private void clickOnEndButton(Window window) {
@@ -88,9 +80,9 @@ public class AddNewBookController implements Initializable {
         window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
     }
 
-    private void clickOnInsertButton(Window window) {
-        BookInserterRepository bookInserterRepository =
-                new BookInserterRepository.BookInserterRepositoryBuilder()
+    private void clickOnSaveButton(Window window) {
+        BookRepository bookRepository =
+                new BookRepository.BookRepositoryBuilder()
                         .setId_numberTextField(id_numberTextField)
                         .setAuthorTextField(authorTextField)
                         .setTitleTextField(titleTextField)
@@ -98,28 +90,22 @@ public class AddNewBookController implements Initializable {
                         .setEditionTextField(editionTextField)
                         .setTomeTextField(tomeTextField)
                         .setConnector(new Connector())
-                        .createInserter();
-        insertNewBook(window, bookInserterRepository);
+                        .createBookRepository();
+        insertNewBook(window, bookRepository);
     }
 
-    private BookRepository getBookRepository() {
-        return new BookRepository(new Connector());
-    }
-
-    private void insertNewBook(Window window, BookInserterRepository bookInserterRepository) {
-        bookInserterRepository.insertBook();
+    private void insertNewBook(Window window, BookRepository bookRepository) {
+        bookRepository.insertBook();
         window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
         window.closeWindow(pane);
     }
 
     private String setDefaultBookIdentifier(BookRepository bookRepository) {
-        String bookIdentifier = "";
-        bookIdentifier = Integer.toString(bookRepository.getAllBooks().size() + 1);
-        return bookIdentifier;
+        return Integer.toString(bookRepository.getAllBooks().size() + 1);
     }
 
     private void setWindowText() {
-        insertButton.setText(INSERT);
+        saveButton.setText(SAVE);
         endButton.setText(END);
         id_numberLabel.setText(ID_NUMBER);
         authorLabel.setText(AUTHOR);

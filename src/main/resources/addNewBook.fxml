@@ -58,7 +58,7 @@
                 </HBox>
                 <HBox alignment="CENTER" prefWidth="440.0" spacing="100.0">
                     <children>
-                        <Button fx:id="insertButton" mnemonicParsing="false" prefWidth="70.0">
+                        <Button fx:id="saveButton" mnemonicParsing="false" prefWidth="70.0">
                             <HBox.margin>
                                 <Insets left="70.0" top="5.0"/>
                             </HBox.margin>

@@ -15,6 +15,10 @@ public class Login {
     }
 
     private boolean isUserAndPasswordCorrect(User databaseUser, User user) {
-        return user.equals(databaseUser);
+        if (databaseUser.getLogin().equals(null)) {
+            return false;
+        } else {
+            return user.equals(databaseUser);
+        }
     }
 }

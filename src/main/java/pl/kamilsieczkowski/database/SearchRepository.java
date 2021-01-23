@@ -10,11 +10,11 @@ import java.sql.SQLException;
 import static pl.kamilsieczkowski.constants.Constants.*;
 
 public class SearchRepository {
-    private String id_number;
-    private String placement;
-    private String author;
-    private String title;
-    private String keyWords;
+    private final String id_number;
+    private final String placement;
+    private final String author;
+    private final String title;
+    private final String keyWords;
 
     SearchRepository(String id_number, String placement, String author, String title, String keyWords) {
         this.id_number = id_number;
@@ -50,14 +50,13 @@ public class SearchRepository {
     }
 
     private String getPlacement(String placement) {
-        if (placement == "All") {
+        if (placement.equals("All")) {
             placement = "";
-            // for searchning in query, all meaning in library and borrowed -
+            // for searching in query, all meaning in library and borrowed -
             // must be empty for searching result with library and borrowed placement
         }
         return placement;
     }
-
 
     public static class SearchRepositoryBuilder {
         private String id_number;
