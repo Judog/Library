@@ -7,10 +7,6 @@ public class User {
     private final String password;
     private final String privilege;
 
-    public String getLogin() {
-        return login;
-    }
-
     public User(final String login, final String password, final String privilege) {
         this.login = login;
         this.password = password;

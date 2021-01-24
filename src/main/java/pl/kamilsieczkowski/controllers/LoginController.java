@@ -60,7 +60,7 @@ public class LoginController implements Initializable {
                 loginStatus.setText(LOGIN_FAILED);
             }
         } catch (SQLException e) {
-            LOG.error(SQL_EXCEPTION + " Login Controller");
+            LOG.error("Can't check login");
         }
     }
 

@@ -13,11 +13,12 @@ import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.constants.Texts;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
-import pl.kamilsieczkowski.database.SearchRepository;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static pl.kamilsieczkowski.constants.Constants.SOURCE_ADD_NEW_BOOK_WINDOW;
@@ -92,18 +93,17 @@ public class LibraryWindowController implements Initializable {
 
     public LibraryWindowController() {
         this.window = new Window();
-        this.bookRepository = new BookRepository.BookRepositoryBuilder()
-                .setConnector(new Connector())
-                .createBookRepository();
+        this.bookRepository = new BookRepository(new Connector());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //displayed things
         setWindowText();
-        displayHowManyBooksFound(bookRepository.getAllBooks());
-        displayAvailabileBooksFound(bookRepository.getAllBooks());
-        viewTable(bookRepository.getAllBooks());
+        ObservableList listOfBooks = FXCollections.observableArrayList(bookRepository.getAllBooks());
+        displayHowManyBooksFound(listOfBooks);
+        displayAvailabileBooksFound(listOfBooks);
+        viewTable(listOfBooks);
         //buttons
         searchButton.setOnAction(event -> searchBooks(new Connector()));
         addNewButton.setOnAction(event -> {
@@ -117,23 +117,19 @@ public class LibraryWindowController implements Initializable {
     }
 
     private void searchBooks(Connector connector) {
-        SearchRepository searchRepository = new SearchRepository.SearchRepositoryBuilder()
-                .setId_number(id_numberTextField.getText())
-                .setAuthor(authorTextField.getText())
-                .setPlacement(placementMenuButton.getText())
-                .setTitle(titleTextField.getText())
-                .setKeyWords(keyWordsTextField.getText())
-                .createSearchRepository();
-        //empty list
-        ObservableList<Book> searchedBookList = FXCollections.observableArrayList();
+        List<Book> bookList = new ArrayList<Book>();
         try {
             //book list
-            searchedBookList = searchRepository.getSearchedBooks(connector);
+            bookList = bookRepository.getSearchedBooks(
+                    id_numberTextField.getText(),
+                    placementMenuButton.getText(),
+                    authorTextField.getText(),
+                    titleTextField.getText(),
+                    keyWordsTextField.getText());
         } catch (SQLException sqlException) {
-            LOG.error(SQL_EXCEPTION + "LibraryWindowController searchBooks");
-        } finally {
-            connector.closeConnection();
+            LOG.error("Can't get book list, ");
         }
+        ObservableList<Book> searchedBookList = FXCollections.observableArrayList(bookList);
         //viewers
         viewTable(searchedBookList);
         displayHowManyBooksFound(searchedBookList);

@@ -10,13 +10,9 @@
 
 <Pane fx:id="pane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="pl.kamilsieczkowski.controllers.AddNewBookController">
-    <children>
         <VBox alignment="CENTER">
-            <children>
                 <HBox alignment="CENTER">
-                    <children>
                         <VBox prefWidth="59.0" spacing="10.0">
-                            <children>
                                 <Label fx:id="id_numberLabel" prefHeight="25.0" prefWidth="59.0" text="ID number">
                                     <VBox.margin>
                                         <Insets top="10.0"/>
@@ -32,10 +28,8 @@
                                        prefWidth="59.0"/>
                                 <Label fx:id="editionLabel" layoutX="10.0" layoutY="185.0" prefHeight="25.0"
                                        prefWidth="80.0"/>
-                            </children>
                         </VBox>
                         <VBox spacing="10.0">
-                            <children>
                                 <TextField fx:id="id_numberTextField" maxWidth="-Infinity" minWidth="-Infinity"
                                            prefHeight="25.0" prefWidth="306.0">
                                     <VBox.margin>
@@ -52,12 +46,9 @@
                                            minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0"/>
                                 <TextField fx:id="editionTextField" layoutX="10.0" layoutY="195.0" maxWidth="-Infinity"
                                            minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0"/>
-                            </children>
                         </VBox>
-                    </children>
                 </HBox>
                 <HBox alignment="CENTER" prefWidth="440.0" spacing="100.0">
-                    <children>
                         <Button fx:id="saveButton" mnemonicParsing="false" prefWidth="70.0">
                             <HBox.margin>
                                 <Insets left="70.0" top="5.0"/>
@@ -68,12 +59,9 @@
                                 <Insets right="70.0" top="5.0"/>
                             </HBox.margin>
                         </Button>
-                    </children>
                     <VBox.margin>
                         <Insets bottom="10.0"/>
                     </VBox.margin>
                 </HBox>
-            </children>
         </VBox>
-    </children>
 </Pane>

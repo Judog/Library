@@ -67,10 +67,7 @@ public class AddNewBookController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();
         id_numberTextField.setText(setDefaultBookIdentifier(
-                new BookRepository
-                        .BookRepositoryBuilder()
-                        .setConnector(new Connector())
-                        .createBookRepository()));
+                new BookRepository(new Connector())));
         endButton.setOnAction(event -> clickOnEndButton(new Window()));
         saveButton.setOnAction(event -> clickOnSaveButton(new Window()));
     }
@@ -81,21 +78,14 @@ public class AddNewBookController implements Initializable {
     }
 
     private void clickOnSaveButton(Window window) {
-        BookRepository bookRepository =
-                new BookRepository.BookRepositoryBuilder()
-                        .setId_numberTextField(id_numberTextField)
-                        .setAuthorTextField(authorTextField)
-                        .setTitleTextField(titleTextField)
-                        .setKeywordsTextField(keywordsTextField)
-                        .setEditionTextField(editionTextField)
-                        .setTomeTextField(tomeTextField)
-                        .setConnector(new Connector())
-                        .createBookRepository();
+        BookRepository bookRepository = new BookRepository(new Connector());
         insertNewBook(window, bookRepository);
     }
 
     private void insertNewBook(Window window, BookRepository bookRepository) {
-        bookRepository.insertBook();
+        bookRepository.insertBook(id_numberTextField.getText(), authorTextField.getText(),
+                titleTextField.getText(), keywordsTextField.getText(),
+                editionTextField.getText(), tomeTextField.getText());
         window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
         window.closeWindow(pane);
     }

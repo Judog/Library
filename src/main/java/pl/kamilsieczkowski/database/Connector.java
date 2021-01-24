@@ -29,7 +29,7 @@ public class Connector {
             this.pst = con.prepareStatement(enteredQuery);
             this.executeQuery = pst.executeQuery();
         } catch (SQLException e) {
-            LOG.error(SQL_EXCEPTION + " Connector downloadFromDatabase");
+            LOG.error("can't download from database");
         }
         return executeQuery;
     }
@@ -39,14 +39,14 @@ public class Connector {
         try {
             this.con = DriverManager.getConnection(SERVER_URL, SERVER_USER, SERVER_PASSWORD);
         } catch (SQLException e) {
-            LOG.error(SQL_EXCEPTION + " Connector connectIntoDatabase");
+            LOG.error("Can't get database connection");
             this.isConnectedToDatabase = false;
         }
         return con;
     }
 
     public void closeConnection() {
-        String CLOSE_CONNECTION = "Connector closeConnection";
+        String CLOSE_CONNECTION = "Can't clo";
         try {
             executeQuery.close();
             pst.close();

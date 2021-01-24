@@ -18,7 +18,6 @@ public class Window {
     }
 
     public void openNewWindow(String windowSource, String windowTitle) {
-        Pane pane = new Pane();
         Stage stage = new Stage();
         Parent content = null;
         try {

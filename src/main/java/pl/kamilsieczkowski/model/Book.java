@@ -6,8 +6,6 @@ public class Book {
     private final String title;
     private final String keyWords;
     private final int tome;
-    private final String edition;
-    private final String localization;
 
     public int getId_book() {
         return id_book;
@@ -36,6 +34,10 @@ public class Book {
     public String getLocalization() {
         return localization;
     }
+
+    private final String edition;
+    private final String localization;
+
 
     private Book(int id_book, String author, String title, String keyWords, int tome, String edition, String localization) {
         this.id_book = id_book;

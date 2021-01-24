@@ -1,8 +1,5 @@
 package pl.kamilsieczkowski.database;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.kamilsieczkowski.model.Book;
@@ -11,36 +8,25 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import static pl.kamilsieczkowski.constants.Constants.*;
-import static pl.kamilsieczkowski.constants.Texts.SQL_EXCEPTION;
 
 public class BookRepository {
-    private final TextField id_numberTextField;
-    private final TextField authorTextField;
-    private final TextField titleTextField;
-    private final TextField keywordsTextField;
-    private final TextField editionTextField;
-    private final TextField tomeTextField;
     private final Connector connector;
     public static final Logger LOG = LogManager.getLogger(BookRepository.class);
+    private final String QUERY_GET_ALL_BOOKS = "SELECT * FROM library_users.books;";
+    private final String QUERY_INSERT = "INSERT INTO library_users.books VALUES (";
+    private final String QUERY = "SELECT * FROM library_users.books WHERE ";
 
-    private BookRepository(TextField id_numberTextField, TextField authorTextField,
-                           TextField titleTextField, TextField keywordsTextField,
-                           TextField editionTextField, TextField tomeTextField, Connector connector) {
-        this.id_numberTextField = id_numberTextField;
-        this.authorTextField = authorTextField;
-        this.titleTextField = titleTextField;
-        this.keywordsTextField = keywordsTextField;
-        this.editionTextField = editionTextField;
-        this.tomeTextField = tomeTextField;
+    public BookRepository(Connector connector) {
         this.connector = connector;
     }
 
-    public ObservableList<Book> getAllBooks() {
-        String queryGetAllBooks = "SELECT * FROM library_users.books;";
-        ResultSet resultSet = connector.downloadFromDatabase(queryGetAllBooks);
-        ObservableList<Book> bookList = FXCollections.observableArrayList();
+    public List<Book> getAllBooks() {
+        ResultSet resultSet = this.connector.downloadFromDatabase(this.QUERY_GET_ALL_BOOKS);
+        List<Book> bookList = new ArrayList<>();
         try {
             while (resultSet.next()) {
                 int id_books = resultSet.getInt(COLUMN_ID_BOOK);
@@ -61,82 +47,60 @@ public class BookRepository {
                         .createBook());
             }
         } catch (SQLException exception) {
-            LOG.error(SQL_EXCEPTION + "getAllBooks");
+            LOG.error("Can't get bookList from server");
         }
         return bookList;
     }
 
     public void insertIntoDatabase(String enteredQuery) throws SQLException {
-        Connection con = connector.getDatabaseConnection();
+        Connection con = this.connector.getDatabaseConnection();
         Statement st = con.createStatement();
         st.executeUpdate(enteredQuery);
         con.close();
     }
 
-    public void insertBook() {
-        String queryInsert = "INSERT INTO library_users.books VALUES (";
-        String book_id = id_numberTextField.getText();
-        String author = authorTextField.getText();
-        String title = titleTextField.getText();
-        String keyWords = keywordsTextField.getText();
-        String edition = editionTextField.getText();
-        String tome = tomeTextField.getText();
-        String enteredQuery = queryInsert + "'" + book_id + "', '" +
-                author + "', '" + title + "', '" + keyWords + "', '" +
-                tome + "', '" + edition + "', '" + "library'" + ");";
+    public void insertBook(String book_id, String author,
+                           String title, String keyWords, String edition, String tome) {
+        StringBuilder enteredQuery =new StringBuilder().append(this.QUERY_INSERT).append("'").append(book_id).append("', '")
+                .append(author).append("', '").append(title).append("', '").append(keyWords).append("', '" )
+                .append(tome).append("', '").append(edition).append("', '").append("library'").append(");");
         try {
-            insertIntoDatabase(enteredQuery);
+            insertIntoDatabase(enteredQuery.toString());
         } catch (SQLException e) {
-            LOG.error(SQL_EXCEPTION + " BookInserterRepository insertBook");
+            LOG.error("Can't send query to server");
         }
     }
 
-    public static class BookRepositoryBuilder {
-        private TextField id_numberTextField;
-        private TextField authorTextField;
-        private TextField titleTextField;
-        private TextField keywordsTextField;
-        private TextField editionTextField;
-        private TextField tomeTextField;
-        private Connector connector;
-
-        public BookRepositoryBuilder setId_numberTextField(TextField id_numberTextField) {
-            this.id_numberTextField = id_numberTextField;
-            return this;
+    public List<Book> getSearchedBooks(String id_number, String placement, String author, String title, String keyWords) throws SQLException {
+        String enteredQuery = this.QUERY +
+                COLUMN_ID_BOOK + " LIKE '%" + id_number + "%' AND " +
+                COLUMN_AUTHOR + " LIKE '%" + author + "%' AND " +
+                COLUMN_TITLE + " LIKE '%" + title + "%' AND " +
+                COLUMN_KEY_WORDS + " LIKE '%" + keyWords + "%' AND " +
+                COLUMN_LOCALIZATION + " LIKE '%" + getPlacement(placement) + "%';";
+        ResultSet resultSet = this.connector.downloadFromDatabase(enteredQuery);
+        List<Book> searchedBooks = new ArrayList<>();
+        while (resultSet.next()) {
+            Book book = new Book.BookBuilder()
+                    .setId_book(resultSet.getInt(COLUMN_ID_BOOK))
+                    .setLocalization(resultSet.getString(COLUMN_LOCALIZATION))
+                    .setAuthor(resultSet.getString(COLUMN_AUTHOR))
+                    .setTitle(resultSet.getString(COLUMN_TITLE))
+                    .setEdition(resultSet.getString(COLUMN_EDITION))
+                    .setTome(resultSet.getInt(COLUMN_TOME))
+                    .setKeyWords(resultSet.getString(COLUMN_KEY_WORDS))
+                    .createBook();
+            searchedBooks.add(book);
         }
+        return searchedBooks;
+    }
 
-        public BookRepositoryBuilder setAuthorTextField(TextField authorTextField) {
-            this.authorTextField = authorTextField;
-            return this;
+    private String getPlacement(String placement) {
+        if (placement.equals("All")) {
+            placement = "";
+            // for searching in query, all meaning in library and borrowed -
+            // must be empty for searching result with library and borrowed placement
         }
-
-        public BookRepositoryBuilder setTitleTextField(TextField titleTextField) {
-            this.titleTextField = titleTextField;
-            return this;
-        }
-
-        public BookRepositoryBuilder setKeywordsTextField(TextField keywordsTextField) {
-            this.keywordsTextField = keywordsTextField;
-            return this;
-        }
-
-        public BookRepositoryBuilder setEditionTextField(TextField editionTextField) {
-            this.editionTextField = editionTextField;
-            return this;
-        }
-
-        public BookRepositoryBuilder setTomeTextField(TextField tomeTextField) {
-            this.tomeTextField = tomeTextField;
-            return this;
-        }
-
-        public BookRepositoryBuilder setConnector(Connector connector) {
-            this.connector = connector;
-            return this;
-        }
-
-        public BookRepository createBookRepository() {
-            return new BookRepository(id_numberTextField, authorTextField, titleTextField, keywordsTextField, editionTextField, tomeTextField, connector);
-        }
+        return placement;
     }
 }
