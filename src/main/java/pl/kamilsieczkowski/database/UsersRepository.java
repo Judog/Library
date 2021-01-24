@@ -24,8 +24,8 @@ public class UsersRepository {
 
     public User connectUsersDatabase(String enteredLogin) throws SQLException {
         this.isLoginExist = true;
-        String enteredQuery = QUERY_USER + enteredLogin + "';"; // select row of entered login, from users database
-        ResultSet resultSet = connector.downloadFromDatabase(enteredQuery);
+        StringBuilder enteredQuery = new StringBuilder().append(QUERY_USER).append(enteredLogin).append("';"); // select row of entered login, from users database
+        ResultSet resultSet = connector.downloadFromDatabase(enteredQuery.toString());
         resultSet.next();// go to next (first) row
         String username = resultSet.getString(USERNAME);
         String password = resultSet.getString(PASSWORD);
