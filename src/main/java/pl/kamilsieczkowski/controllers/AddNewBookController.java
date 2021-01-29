@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
+import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
@@ -83,9 +84,14 @@ public class AddNewBookController implements Initializable {
     }
 
     private void insertNewBook(Window window, BookRepository bookRepository) {
-        bookRepository.insertBook(id_numberTextField.getText(), authorTextField.getText(),
-                titleTextField.getText(), keywordsTextField.getText(),
-                editionTextField.getText(), tomeTextField.getText());
+        bookRepository.insertBook(new Book.BookBuilder()
+                        .setId_book(Integer.parseInt(id_numberTextField.getText()))
+                        .setAuthor(authorTextField.getText())
+                        .setTitle(titleTextField.getText())
+                        .setKeyWords(keywordsTextField.getText())
+                        .setEdition(editionTextField.getText())
+                        .setTome(Integer.parseInt(tomeTextField.getText()))
+                        .createBook());
         window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
         window.closeWindow(pane);
     }

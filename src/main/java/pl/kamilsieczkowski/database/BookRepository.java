@@ -16,16 +16,16 @@ import static pl.kamilsieczkowski.constants.Constants.*;
 public class BookRepository {
     private final Connector connector;
     public static final Logger LOG = LogManager.getLogger(BookRepository.class);
-    private final String QUERY_GET_ALL_BOOKS = "SELECT * FROM library_users.books;";
-    private final String QUERY_INSERT = "INSERT INTO library_users.books VALUES (";
-    private final String QUERY = "SELECT * FROM library_users.books WHERE ";
+    private static final String QUERY_GET_ALL_BOOKS = "SELECT * FROM library_users.books;";
+    private static final String QUERY_INSERT = "INSERT INTO library_users.books VALUES (";
+    private static final String QUERY = "SELECT * FROM library_users.books WHERE ";
 
     public BookRepository(Connector connector) {
         this.connector = connector;
     }
 
     public List<Book> getAllBooks() {
-        ResultSet resultSet = this.connector.downloadFromDatabase(this.QUERY_GET_ALL_BOOKS);
+        ResultSet resultSet = this.connector.downloadFromDatabase(QUERY_GET_ALL_BOOKS);
         List<Book> bookList = new ArrayList<>();
         try {
             while (resultSet.next()) {
@@ -47,38 +47,34 @@ public class BookRepository {
                         .createBook());
             }
         } catch (SQLException exception) {
-            LOG.error("Can't get bookList from server");
+            LOG.error("Can't get bookList from server", exception);
         }
         return bookList;
     }
 
-    public void insertIntoDatabase(String enteredQuery) throws SQLException {
+    public void executeQuery(String enteredQuery) throws SQLException {
         Connection con = this.connector.getDatabaseConnection();
         Statement st = con.createStatement();
         st.executeUpdate(enteredQuery);
         con.close();
     }
 
-    public void insertBook(String book_id, String author,
-                           String title, String keyWords, String edition, String tome) {
-        StringBuilder enteredQuery =new StringBuilder().append(this.QUERY_INSERT).append("'").append(book_id).append("', '")
-                .append(author).append("', '").append(title).append("', '").append(keyWords).append("', '" )
-                .append(tome).append("', '").append(edition).append("', '").append("library'").append(");");
+    public void insertBook(Book book) {
         try {
-            insertIntoDatabase(enteredQuery.toString());
+            executeQuery(getInsertBookQuery(book));
         } catch (SQLException e) {
-            LOG.error("Can't send query to server");
+            LOG.error("Can't send query to server", e);
         }
     }
 
-    public List<Book> getSearchedBooks(String id_number, String placement, String author, String title, String keyWords) throws SQLException {
-        String enteredQuery = this.QUERY +
-                COLUMN_ID_BOOK + " LIKE '%" + id_number + "%' AND " +
-                COLUMN_AUTHOR + " LIKE '%" + author + "%' AND " +
-                COLUMN_TITLE + " LIKE '%" + title + "%' AND " +
-                COLUMN_KEY_WORDS + " LIKE '%" + keyWords + "%' AND " +
-                COLUMN_LOCALIZATION + " LIKE '%" + getPlacement(placement) + "%';";
-        ResultSet resultSet = this.connector.downloadFromDatabase(enteredQuery);
+    private String getInsertBookQuery(Book book) {
+        return new StringBuilder(QUERY_INSERT).append("'").append(book.getId_book()).append("', '")
+                .append(book.getAuthor()).append("', '").append(book.getTitle()).append("', '").append(book.getKeyWords()).append("', '")
+                .append(book.getTome()).append("', '").append(book.getEdition()).append("', '").append("library'").append(");").toString();
+    }
+
+    public List<Book> getSearchedBooks(Book searchedBook) throws SQLException {
+        ResultSet resultSet = this.connector.downloadFromDatabase(getSearchedBooksQuery(searchedBook));
         List<Book> searchedBooks = new ArrayList<>();
         while (resultSet.next()) {
             Book book = new Book.BookBuilder()
@@ -93,6 +89,16 @@ public class BookRepository {
             searchedBooks.add(book);
         }
         return searchedBooks;
+    }
+
+    private String getSearchedBooksQuery(Book searchedBook) {
+        return new StringBuilder(QUERY)
+                .append(COLUMN_ID_BOOK).append(" LIKE '%").append(searchedBook.getId_book()).append("%' AND ")
+                .append(COLUMN_AUTHOR).append(" LIKE '%").append(searchedBook.getAuthor()).append("%' AND ")
+                .append(COLUMN_TITLE).append(" LIKE '%").append(searchedBook.getTitle()).append("%' AND ")
+                .append(COLUMN_KEY_WORDS).append(" LIKE '%").append(searchedBook.getKeyWords()).append("%' AND ")
+                .append(COLUMN_LOCALIZATION).append(" LIKE '%").append(getPlacement(searchedBook.getLocalization())).append("%';")
+                .toString();
     }
 
     private String getPlacement(String placement) {

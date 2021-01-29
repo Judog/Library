@@ -2,6 +2,7 @@ package pl.kamilsieczkowski.database;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.kamilsieczkowski.observators.Observator;
 
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -10,18 +11,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static pl.kamilsieczkowski.constants.Constants.*;
-import static pl.kamilsieczkowski.constants.Texts.SQL_EXCEPTION;
 
 public class Connector {
     private Connection con;
     private PreparedStatement pst;
     private ResultSet executeQuery;
-    public boolean isConnectedToDatabase;
+    private Observator connectionObservator;
+
+    public Observator getConnectionObservator() {
+        return connectionObservator;
+    }
+
+    public void setConnectionObservator(Observator connectionObservator) {
+        this.connectionObservator = connectionObservator;
+    }
 
     public static final Logger LOG = LogManager.getLogger(Connector.class);
 
     public Connector() {
         this.con = getDatabaseConnection();
+        this.connectionObservator = new Observator();
     }
 
     public ResultSet downloadFromDatabase(String enteredQuery) {
@@ -29,34 +38,28 @@ public class Connector {
             this.pst = con.prepareStatement(enteredQuery);
             this.executeQuery = pst.executeQuery();
         } catch (SQLException e) {
-            LOG.error("can't download from database");
+            LOG.error("can't download from database",e);
         }
         return executeQuery;
     }
 
     public Connection getDatabaseConnection() {
-        this.isConnectedToDatabase = true;
         try {
             this.con = DriverManager.getConnection(SERVER_URL, SERVER_USER, SERVER_PASSWORD);
         } catch (SQLException e) {
-            LOG.error("Can't get database connection");
-            this.isConnectedToDatabase = false;
+            connectionObservator.setObservatatedProcessExecuted(false);
+            LOG.error("Can't get database connection",e);
         }
         return con;
     }
 
     public void closeConnection() {
-        String CLOSE_CONNECTION = "Can't clo";
         try {
             executeQuery.close();
             pst.close();
             con.close();
         } catch (SQLException e) {
-            LoggerMessageAtExceptionInCloseConnection(CLOSE_CONNECTION);
+            LOG.error("Can't close connection",e);
         }
-    }
-
-    private void LoggerMessageAtExceptionInCloseConnection(String CLOSE_CONNECTION) {
-        LOG.error(SQL_EXCEPTION + CLOSE_CONNECTION);
     }
 }

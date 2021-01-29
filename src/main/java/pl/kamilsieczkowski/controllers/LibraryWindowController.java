@@ -100,12 +100,12 @@ public class LibraryWindowController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //displayed things
         setWindowText();
-        ObservableList listOfBooks = FXCollections.observableArrayList(bookRepository.getAllBooks());
+        ObservableList<Book> listOfBooks = FXCollections.observableArrayList(bookRepository.getAllBooks());
         displayHowManyBooksFound(listOfBooks);
-        displayAvailabileBooksFound(listOfBooks);
+        displayAvailableBooksFound(listOfBooks);
         viewTable(listOfBooks);
         //buttons
-        searchButton.setOnAction(event -> searchBooks(new Connector()));
+        searchButton.setOnAction(event -> searchBooks());
         addNewButton.setOnAction(event -> {
             window.closeWindow(popupPane);
             window.openNewWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
@@ -116,16 +116,18 @@ public class LibraryWindowController implements Initializable {
         all.setOnAction(event -> placementMenuButton.setText(ALL));
     }
 
-    private void searchBooks(Connector connector) {
-        List<Book> bookList = new ArrayList<Book>();
+    private void searchBooks() {
+        List<Book> bookList = new ArrayList<>();
         try {
             //book list
-            bookList = bookRepository.getSearchedBooks(
-                    id_numberTextField.getText(),
-                    placementMenuButton.getText(),
-                    authorTextField.getText(),
-                    titleTextField.getText(),
-                    keyWordsTextField.getText());
+            bookList = bookRepository.getSearchedBooks
+                    (new Book.BookBuilder()
+                            .setId_book(Integer.parseInt(id_numberTextField.getText()))
+                            .setAuthor(authorTextField.getText())
+                            .setTitle(titleTextField.getText())
+                            .setKeyWords(keyWordsTextField.getText())
+                                    .setLocalization(placementMenuButton.getText())
+                                    .createBook());
         } catch (SQLException sqlException) {
             LOG.error("Can't get book list, ");
         }
@@ -133,14 +135,14 @@ public class LibraryWindowController implements Initializable {
         //viewers
         viewTable(searchedBookList);
         displayHowManyBooksFound(searchedBookList);
-        displayAvailabileBooksFound(searchedBookList);
+        displayAvailableBooksFound(searchedBookList);
     }
 
     void displayHowManyBooksFound(ObservableList<Book> observableList) {
         foundLabel.setText(FOUND + SPACE + observableList.size());
     }
 
-    void displayAvailabileBooksFound(ObservableList<Book> observableList) {
+    void displayAvailableBooksFound(ObservableList<Book> observableList) {
         int numberOfBooksInLibrary = 0;
         Book bookInLibrary = new Book.BookBuilder().setLocalization(IN_LIBRARY).createBook();
         for (Book book : observableList) {

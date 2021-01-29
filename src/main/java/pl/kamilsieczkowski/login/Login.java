@@ -5,6 +5,8 @@ import pl.kamilsieczkowski.database.UsersRepository;
 import pl.kamilsieczkowski.model.User;
 
 import java.sql.SQLException;
+import java.util.Observable;
+import java.util.Observer;
 
 public class Login {
     private final UsersRepository usersRepository;
