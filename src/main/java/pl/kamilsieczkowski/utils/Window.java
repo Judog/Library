@@ -23,9 +23,8 @@ public class Window {
         try {
             content = FXMLLoader.load(getClass().getResource(windowSource));
         } catch (IOException e) {
-            LOG.error("IOException " + "openNewWindow");
+            LOG.error("can't get Window resource",e);
         }
-        if (content == null) throw new AssertionError();
         Scene scene = new Scene(content);
         stage.setTitle(windowTitle);
         stage.setScene(scene);

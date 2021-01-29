@@ -73,7 +73,7 @@ public class BookRepository {
                 .append(book.getTome()).append("', '").append(book.getEdition()).append("', '").append("library'").append(");").toString();
     }
 
-    public List<Book> getSearchedBooks(Book searchedBook) throws SQLException {
+    public List<Book> findBooksBy(Book searchedBook) throws SQLException {
         ResultSet resultSet = this.connector.downloadFromDatabase(getSearchedBooksQuery(searchedBook));
         List<Book> searchedBooks = new ArrayList<>();
         while (resultSet.next()) {

@@ -120,7 +120,7 @@ public class LibraryWindowController implements Initializable {
         List<Book> bookList = new ArrayList<>();
         try {
             //book list
-            bookList = bookRepository.getSearchedBooks
+            bookList = bookRepository.findBooksBy
                     (new Book.BookBuilder()
                             .setId_book(Integer.parseInt(id_numberTextField.getText()))
                             .setAuthor(authorTextField.getText())
