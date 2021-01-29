@@ -19,16 +19,22 @@ public class Window {
 
     public void openNewWindow(String windowSource, String windowTitle) {
         Stage stage = new Stage();
-        Parent content = null;
-        try {
-            content = FXMLLoader.load(getClass().getResource(windowSource));
-        } catch (IOException e) {
-            LOG.error("can't get Window resource",e);
-        }
+
+        Parent content = getWindowContent(windowSource);
         Scene scene = new Scene(content);
         stage.setTitle(windowTitle);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private Parent getWindowContent(String windowSource) {
+        Parent content = null;
+        try {
+            content = FXMLLoader.load(getClass().getResource(windowSource));
+        } catch (IOException e) {
+            LOG.error("can't get Window resource", e);
+        }
+        return content;
     }
 
     public void closeWindow(Pane pane) {
