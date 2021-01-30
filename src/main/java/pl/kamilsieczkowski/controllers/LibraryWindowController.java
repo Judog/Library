@@ -70,7 +70,7 @@ public class LibraryWindowController implements Initializable {
     @FXML
     private TableView<Book> table;
     @FXML
-    private Pane popupPane;
+    private Pane pane;
     @FXML
     private TextField id_numberTextField;
     @FXML
@@ -106,10 +106,7 @@ public class LibraryWindowController implements Initializable {
         viewTable(listOfBooks);
         //buttons
         searchButton.setOnAction(event -> searchBooks());
-        addNewButton.setOnAction(event -> {
-            window.closeWindow(popupPane);
-            window.openNewWindow(SOURCE_ADD_NEW_BOOK_WINDOW, ADD_NEW_BOOK);
-        });
+        addNewButton.setOnAction(event -> window.changeWindow(pane, SOURCE_ADD_NEW_BOOK_WINDOW));
         //Split Menu Button (placement Menu Button) functionality.
         library.setOnAction(event -> placementMenuButton.setText(IN_LIBRARY));
         borrowed.setOnAction(event -> placementMenuButton.setText(BORROWED));
@@ -126,8 +123,8 @@ public class LibraryWindowController implements Initializable {
                             .setAuthor(authorTextField.getText())
                             .setTitle(titleTextField.getText())
                             .setKeyWords(keyWordsTextField.getText())
-                                    .setLocalization(placementMenuButton.getText())
-                                    .createBook());
+                            .setLocalization(placementMenuButton.getText())
+                            .createBook());
         } catch (SQLException sqlException) {
             LOG.error("Can't get book list, ");
         }

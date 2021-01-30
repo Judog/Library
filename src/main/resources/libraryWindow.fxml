@@ -15,7 +15,7 @@
 
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<Pane fx:id="popupPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<Pane fx:id="pane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="pl.kamilsieczkowski.controllers.LibraryWindowController">
     <TabPane tabClosingPolicy="UNAVAILABLE">
         <Tab fx:id="publicationsTab">
@@ -86,7 +86,7 @@
                             </HBox.margin>
                         </VBox>
                     </HBox>
-                    <TableView fx:id="table" prefHeight="272.0">
+                    <TableView fx:id="table" prefHeight="270">
                         <columns>
                             <TableColumn fx:id="idNumberColumn"/>
                             <TableColumn fx:id="authorColumn"/>
