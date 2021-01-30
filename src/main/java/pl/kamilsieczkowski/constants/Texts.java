@@ -27,7 +27,6 @@ public class Texts {
     public static final String END = "End";
     public static final String ADD_NEW_BOOK = "Add new book";
     public static final String SPACE = " ";
-    public static final String SQL_EXCEPTION = "SQLException";
     public static final String IN_LIBRARY = "library";
     public static final String BORROWED = "Borrowed";
     public static final String ALL = "All";

@@ -5,8 +5,6 @@ import pl.kamilsieczkowski.database.UsersRepository;
 import pl.kamilsieczkowski.model.User;
 
 import java.sql.SQLException;
-import java.util.Observable;
-import java.util.Observer;
 
 public class Login {
     private final UsersRepository usersRepository;
@@ -19,13 +17,13 @@ public class Login {
         return usersRepository;
     }
 
-    public boolean isLoginSuccessful(String login, String password) throws SQLException {
+    public boolean isLoginSuccessful(String login, String password) {
         User user = new User(login, password, null);
         User databaseUser = usersRepository.connectUsersDatabase(login);
         return isUserAndPasswordCorrect(databaseUser, user);
     }
 
     private boolean isUserAndPasswordCorrect(User databaseUser, User user) {
-            return user.equals(databaseUser);
+        return user.equals(databaseUser);
     }
 }

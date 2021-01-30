@@ -1,5 +1,7 @@
 package pl.kamilsieczkowski.database;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.kamilsieczkowski.model.User;
 import pl.kamilsieczkowski.observators.Observator;
 
@@ -12,6 +14,7 @@ public class UsersRepository {
     private final String USERNAME = "username";
     private final String PASSWORD = "password";
     private final String PRIVILEGE = "privilege";
+    public static final Logger LOG = LogManager.getLogger(UsersRepository.class);
     private Observator loginObservator;
 
     public Connector getConnector() {
@@ -27,17 +30,16 @@ public class UsersRepository {
         String username = "";
         String password = "";
         String privilege = "";
-        ResultSet resultSet = null;
         try {
             StringBuilder enteredQuery = new StringBuilder(QUERY_USER).append(enteredLogin).append("';"); // select row of entered login, from users database
-            resultSet = connector.downloadFromDatabase(enteredQuery.toString());
+            ResultSet resultSet = connector.downloadFromDatabase(enteredQuery.toString());
             resultSet.next();// go to next (first) row
             username = resultSet.getString(USERNAME);
             password = resultSet.getString(PASSWORD);
             privilege = resultSet.getString(PRIVILEGE);
             checkIsLoginExist(resultSet);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            LOG.error("Can't get a result", e);
         } finally {
             connector.closeConnection();
         }
@@ -49,6 +51,6 @@ public class UsersRepository {
     }
 
     private void checkIsLoginExist(ResultSet resultSet) throws SQLException {
-        loginObservator.setObservatatedProcessExecuted(resultSet.wasNull());
+        loginObservator.setObservatatedProcessNotExecuted(resultSet.wasNull());
     }
 }

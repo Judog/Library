@@ -72,7 +72,7 @@ public class LoginController implements Initializable {
     }
 
     private boolean isNotLogged(Observator loginObservator) {
-        return !loginObservator.isObservatatedProcessExecuted();
+        return loginObservator.isObservatatedProcessNotExecuted();
     }
 
     private Observator getLoginObservator(Login loginObject) {
@@ -86,9 +86,9 @@ public class LoginController implements Initializable {
     }
 
     private boolean isNotConnectedToDatabase() {
-        return !loginObject.getUsersRepository()
+        return loginObject.getUsersRepository()
                 .getConnector()
                 .getConnectionObservator()
-                .isObservatatedProcessExecuted();
+                .isObservatatedProcessNotExecuted();
     }
 }
