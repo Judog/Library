@@ -51,10 +51,11 @@ public class LoginController implements Initializable {
 
     private void checkUserAndPassword(Login loginObject, Window window) {
         if (loginObject.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
-            window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
+            window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
+            window.closeWindow(this.pane);
         } else if (isNotLogged(getLoginObservator(loginObject))) {
-            setLoginStatusLabel(LOGIN_DOES_NOT_EXIST);
-        } else if (isNotConnectedToDatabase(loginObject)) {
+            setLoginStatusLabel(LOGIN_DOESN_T_EXIST);
+        } else if (isNotConnectedToDatabase()) {
             setLoginStatusLabel(CANT_CONNECT);
         } else {
             loginStatus.setText(LOGIN_FAILED);
@@ -62,7 +63,7 @@ public class LoginController implements Initializable {
     }
 
     private boolean isNotLogged(Observator loginObservator) {
-        return loginObservator.isObservatatedProcessIsNotExecuted();
+        return loginObservator.isObservatatedProcessNotExecuted();
     }
 
     private Observator getLoginObservator(Login loginObject) {
@@ -79,6 +80,6 @@ public class LoginController implements Initializable {
         return loginObject.getUsersRepository()
                 .getConnector()
                 .getConnectionObservator()
-                .isObservatatedProcessIsNotExecuted();
+                .isObservatatedProcessNotExecuted();
     }
 }

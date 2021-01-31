@@ -68,7 +68,7 @@ public class BookRepository {
     }
 
     private String getInsertBookQuery(Book book) {
-        return new StringBuilder(QUERY_INSERT).append("'").append(book.getId_book()).append("', '")
+        return new  StringBuilder(QUERY_INSERT).append("'").append(book.getId_book()).append("', '")
                 .append(book.getAuthor()).append("', '").append(book.getTitle()).append("', '").append(book.getKeyWords()).append("', '")
                 .append(book.getTome()).append("', '").append(book.getEdition()).append("', '").append("library'").append(");").toString();
     }

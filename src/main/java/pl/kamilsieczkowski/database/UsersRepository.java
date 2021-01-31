@@ -15,8 +15,8 @@ public class UsersRepository {
     private final String USERNAME = "username";
     private final String PASSWORD = "password";
     private final String PRIVILEGE = "privilege";
-    private final Observator loginObservator;
     public static final Logger LOG = LogManager.getLogger(UsersRepository.class);
+    private Observator loginObservator;
 
     public Connector getConnector() {
         return connector;
@@ -40,7 +40,7 @@ public class UsersRepository {
             privilege = resultSet.getString(PRIVILEGE);
             checkIsLoginExist(resultSet);
         } catch (SQLException e) {
-            LOG.error("can't get results", e);
+            LOG.error("Can't get a result", e);
         } finally {
             connector.closeConnection();
         }
@@ -52,6 +52,6 @@ public class UsersRepository {
     }
 
     private void checkIsLoginExist(ResultSet resultSet) throws SQLException {
-        loginObservator.setObservatatedProcessExecuted(resultSet.wasNull());
+        loginObservator.setObservatatedProcessNotExecuted(resultSet.wasNull());
     }
 }

@@ -47,7 +47,7 @@ public class Connector {
         try {
             this.con = DriverManager.getConnection(SERVER_URL, SERVER_USER, SERVER_PASSWORD);
         } catch (SQLException e) {
-            connectionObservator.setObservatatedProcessExecuted(false);
+            connectionObservator.setObservatatedProcessNotExecuted(false);
             LOG.error("Can't get database connection",e);
         }
         return con;

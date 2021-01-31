@@ -4,6 +4,7 @@ import pl.kamilsieczkowski.database.Connector;
 import pl.kamilsieczkowski.database.UsersRepository;
 import pl.kamilsieczkowski.model.User;
 
+
 public class Login {
     private final UsersRepository usersRepository;
 
@@ -22,6 +23,6 @@ public class Login {
     }
 
     private boolean isUserAndPasswordCorrect(User databaseUser, User user) {
-            return user.equals(databaseUser);
+        return user.equals(databaseUser);
     }
 }
