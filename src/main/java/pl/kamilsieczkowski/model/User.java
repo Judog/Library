@@ -1,11 +1,11 @@
-package pl.kamilsieczkowski.utils;
+package pl.kamilsieczkowski.model;
 
 import java.util.Objects;
 
 public class User {
-    private String login;
-    private String password;
-    private String privilege;
+    private final String login;
+    private final String password;
+    private final String privilege;
 
     public User(final String login, final String password, final String privilege) {
         this.login = login;
