@@ -7,8 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import pl.kamilsieczkowski.login.Login;
 import pl.kamilsieczkowski.observators.Observator;
 import pl.kamilsieczkowski.utils.Window;

@@ -13,6 +13,7 @@ import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.constants.Texts;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
+import pl.kamilsieczkowski.transporters.BookTransporter;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static pl.kamilsieczkowski.constants.Constants.SOURCE_ADD_NEW_BOOK_WINDOW;
+import static pl.kamilsieczkowski.constants.Constants.SOURCE_EDIT_BOOK_WINDOW;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
 public class LibraryWindowController implements Initializable {
@@ -107,10 +109,17 @@ public class LibraryWindowController implements Initializable {
         //buttons
         searchButton.setOnAction(event -> searchBooks());
         addNewButton.setOnAction(event -> window.changeWindow(pane, SOURCE_ADD_NEW_BOOK_WINDOW));
+        editDescriptionButton.setOnAction(event -> editBook());
         //Split Menu Button (placement Menu Button) functionality.
         library.setOnAction(event -> placementMenuButton.setText(IN_LIBRARY));
         borrowed.setOnAction(event -> placementMenuButton.setText(BORROWED));
         all.setOnAction(event -> placementMenuButton.setText(ALL));
+    }
+
+    private void editBook() {
+        Book bookToEdit = table.getSelectionModel().getSelectedItem();
+        BookTransporter.setBook(bookToEdit);
+        window.changeWindow(pane, SOURCE_EDIT_BOOK_WINDOW);
     }
 
     private void searchBooks() {
