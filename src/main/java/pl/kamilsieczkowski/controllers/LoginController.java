@@ -34,7 +34,6 @@ public class LoginController implements Initializable {
     private Label passwordLabel;
     @FXML
     private Label userFieldLabel;
-    public static final Logger LOG = LogManager.getLogger(LoginController.class);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

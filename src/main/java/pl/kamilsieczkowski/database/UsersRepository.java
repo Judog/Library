@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.kamilsieczkowski.model.User;
 import pl.kamilsieczkowski.observators.Observator;
-import pl.kamilsieczkowski.utils.Window;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

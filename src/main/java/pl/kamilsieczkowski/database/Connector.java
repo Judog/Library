@@ -22,10 +22,6 @@ public class Connector {
         return connectionObservator;
     }
 
-    public void setConnectionObservator(Observator connectionObservator) {
-        this.connectionObservator = connectionObservator;
-    }
-
     public static final Logger LOG = LogManager.getLogger(Connector.class);
 
     public Connector() {
