@@ -15,7 +15,6 @@ import pl.kamilsieczkowski.observators.Observator;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static pl.kamilsieczkowski.constants.Constants.SOURCE_LIBRARY_WINDOW;
@@ -54,20 +53,15 @@ public class LoginController implements Initializable {
     }
 
     private void checkUserAndPassword(Login loginObject, Window window) {
-        try {
-            if (loginObject.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
-                window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
-                window.closeWindow(this.pane);
-            } else if (isNotLogged(getLoginObservator(loginObject))) {
-                setLoginStatusLabel(LOGIN_DOESN_T_EXIST);
-            } else if (isNotConnectedToDatabase()) {
-                setLoginStatusLabel(CANT_CONNECT);
-            } else {
-                loginStatus.setText(LOGIN_FAILED);
-            }
-        } catch (
-                SQLException e) {
-            LOG.error("Can't check login", e);
+        if (loginObject.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
+            window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
+            window.closeWindow(this.pane);
+        } else if (isNotLogged(getLoginObservator(loginObject))) {
+            setLoginStatusLabel(LOGIN_DOESN_T_EXIST);
+        } else if (isNotConnectedToDatabase()) {
+            setLoginStatusLabel(CANT_CONNECT);
+        } else {
+            loginStatus.setText(LOGIN_FAILED);
         }
     }
 
