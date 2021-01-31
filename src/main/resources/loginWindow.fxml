@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane fx:id="pane" prefHeight="275" prefWidth="300" xmlns:fx="http://javafx.com/fxml/1"
+<Pane fx:id="pane" prefHeight="410" prefWidth="650" xmlns:fx="http://javafx.com/fxml/1"
       xmlns="http://javafx.com/javafx/11.0.1"
       fx:controller="pl.kamilsieczkowski.controllers.LoginController">
-        <VBox alignment="CENTER" prefHeight="275" prefWidth="300" spacing="7">
+        <VBox alignment="CENTER" prefHeight="410" prefWidth="650" spacing="7">
                 <Label fx:id="userFieldLabel"/>
                 <TextField fx:id="loginField" alignment="CENTER" maxWidth="150" minWidth="150"/>
                 <Label fx:id="passwordLabel"/>

@@ -19,7 +19,6 @@ public class Window {
 
     public void openNewWindow(String windowSource, String windowTitle) {
         Stage stage = new Stage();
-
         Parent content = getWindowContent(windowSource);
         Scene scene = new Scene(content);
         stage.setTitle(windowTitle);
@@ -39,5 +38,16 @@ public class Window {
 
     public void closeWindow(Pane pane) {
         getWindow(pane).close();
+    }
+
+    public void changeWindow(Pane pane, String windowSource) {
+        Parent windowToChange = null;
+        try {
+            windowToChange = FXMLLoader.load(getClass().getResource(windowSource));
+        } catch (IOException e) {
+            LOG.error("can't get Window resource", e);
+        }
+        pane.getChildren().setAll(windowToChange);
+
     }
 }

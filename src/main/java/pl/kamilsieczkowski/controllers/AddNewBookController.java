@@ -74,8 +74,7 @@ public class AddNewBookController implements Initializable {
     }
 
     private void clickOnEndButton(Window window) {
-        window.closeWindow(pane);
-        window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
+        window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
     }
 
     private void clickOnSaveButton(Window window) {
@@ -85,15 +84,14 @@ public class AddNewBookController implements Initializable {
 
     private void insertNewBook(Window window, BookRepository bookRepository) {
         bookRepository.insertBook(new Book.BookBuilder()
-                        .setId_book(Integer.parseInt(id_numberTextField.getText()))
-                        .setAuthor(authorTextField.getText())
-                        .setTitle(titleTextField.getText())
-                        .setKeyWords(keywordsTextField.getText())
-                        .setEdition(editionTextField.getText())
-                        .setTome(Integer.parseInt(tomeTextField.getText()))
-                        .createBook());
-        window.openNewWindow(SOURCE_LIBRARY_WINDOW, LOGGED_IN);
-        window.closeWindow(pane);
+                .setId_book(Integer.parseInt(id_numberTextField.getText()))
+                .setAuthor(authorTextField.getText())
+                .setTitle(titleTextField.getText())
+                .setKeyWords(keywordsTextField.getText())
+                .setEdition(editionTextField.getText())
+                .setTome(Integer.parseInt(tomeTextField.getText()))
+                .createBook());
+        window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
     }
 
     private String setDefaultBookIdentifier(BookRepository bookRepository) {

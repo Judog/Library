@@ -1,21 +1,16 @@
 package pl.kamilsieczkowski;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pl.kamilsieczkowski.utils.Window;
 
-import static pl.kamilsieczkowski.constants.Texts.LOGIN;
+import static pl.kamilsieczkowski.constants.Texts.IN_LIBRARY;
 
 public class Main extends Application {
-
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/loginWindow.fxml"));
-        primaryStage.setTitle(LOGIN);
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+    public void start(Stage primaryStage) {
+        Window window = new Window();
+        window.openNewWindow("/loginWindow.fxml", IN_LIBRARY);
     }
 
     public static void main(String[] args) {
