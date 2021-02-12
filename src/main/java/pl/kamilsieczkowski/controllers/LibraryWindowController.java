@@ -13,7 +13,7 @@ import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.constants.Texts;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
-import pl.kamilsieczkowski.transporters.BookTransporter;
+import pl.kamilsieczkowski.DTO.BookDTO;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
@@ -118,7 +118,7 @@ public class LibraryWindowController implements Initializable {
 
     private void editBook() {
         Book bookToEdit = table.getSelectionModel().getSelectedItem();
-        BookTransporter.setBook(bookToEdit);
+        BookDTO.setBook(bookToEdit);
         window.changeWindow(pane, SOURCE_EDIT_BOOK_WINDOW);
     }
 

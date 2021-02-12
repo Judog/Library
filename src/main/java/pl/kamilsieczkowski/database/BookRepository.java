@@ -68,7 +68,7 @@ public class BookRepository {
         }
     }
 
-    public void editBook(Book book, int idEditedBook) {
+    public void updateBook(Book book, int idEditedBook) {
         try {
             executeQuery(getEditBookQuery(book, idEditedBook));
         } catch (SQLException e) {

@@ -1,8 +1,8 @@
-package pl.kamilsieczkowski.transporters;
+package pl.kamilsieczkowski.DTO;
 
 import pl.kamilsieczkowski.model.Book;
 
-public class BookTransporter {
+public class BookDTO {
     private static Book book;
     private static boolean isBookAvailable;
 
@@ -16,6 +16,6 @@ public class BookTransporter {
 
     public static void setBook(Book book) {
         isBookAvailable = true;
-        BookTransporter.book = book;
+        BookDTO.book = book;
     }
 }
