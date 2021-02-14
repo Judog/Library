@@ -18,6 +18,7 @@ public class BookRepository {
     public static final Logger LOG = LogManager.getLogger(BookRepository.class);
     private static final String QUERY_GET_ALL_BOOKS = "SELECT * FROM library_users.books;";
     private static final String QUERY_INSERT = "INSERT INTO library_users.books VALUES (";
+    private static final String QUERY_EDIT = "UPDATE library_users.books SET";
     private static final String QUERY = "SELECT * FROM library_users.books WHERE ";
 
     public BookRepository(Connector connector) {
@@ -67,8 +68,26 @@ public class BookRepository {
         }
     }
 
+    public void updateBook(Book book, int idEditedBook) {
+        try {
+            executeQuery(getEditBookQuery(book, idEditedBook));
+        } catch (SQLException e) {
+            LOG.error("Can't send query to server", e);
+        }
+    }
+
+    private String getEditBookQuery(Book book, int idEditedBook) {
+        return new StringBuilder(QUERY_EDIT).append("`id_books`='").append(book.getId_book()).append("', ")
+                .append("`title` = '").append(book.getTitle()).append("', ")
+                .append("`author` = '").append(book.getAuthor()).append("', ")
+                .append("`key_words` = '").append(book.getKeyWords()).append("', ")
+                .append("`tome` = '").append(book.getTome()).append("', ")
+                .append("`edition` = '").append(book.getEdition())
+                .append("' WHERE `id_books`='").append(idEditedBook).append("';").toString();
+    }
+
     private String getInsertBookQuery(Book book) {
-        return new  StringBuilder(QUERY_INSERT).append("'").append(book.getId_book()).append("', '")
+        return new StringBuilder(QUERY_INSERT).append("'").append(book.getId_book()).append("', '")
                 .append(book.getAuthor()).append("', '").append(book.getTitle()).append("', '").append(book.getKeyWords()).append("', '")
                 .append(book.getTome()).append("', '").append(book.getEdition()).append("', '").append("library'").append(");").toString();
     }

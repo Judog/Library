@@ -13,5 +13,6 @@ public class Constants {
     public static final String COLUMN_EDITION = "edition";
     public static final String COLUMN_LOCALIZATION = "localization";
     public static final String SOURCE_ADD_NEW_BOOK_WINDOW = "/addNewBook.fxml";
+    public static final String SOURCE_EDIT_BOOK_WINDOW = "/editBook.fxml";
     public static final String SOURCE_LIBRARY_WINDOW = "/libraryWindow.fxml";
 }
