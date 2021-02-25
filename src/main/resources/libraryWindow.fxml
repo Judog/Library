@@ -23,14 +23,14 @@
                 <VBox spacing="7" AnchorPane.topAnchor="5.0">
                     <HBox>
                         <VBox spacing="5.0">
-                            <Label fx:id="id_numberLabel" prefHeight="25.0" prefWidth="60.0"/>
+                            <Label fx:id="idNumberLabel" prefHeight="25.0" prefWidth="60.0"/>
                             <Label fx:id="placementLabel" prefHeight="25.0" prefWidth="60.0"/>
                             <HBox.margin>
                                 <Insets left="5.0"/>
                             </HBox.margin>
                         </VBox>
                         <VBox spacing="5.0">
-                            <TextField fx:id="id_numberTextField"/>
+                            <TextField fx:id="idNumberTextField"/>
                             <SplitMenuButton fx:id="placementMenuButton">
                                 <items>
                                     <MenuItem fx:id="library" mnemonicParsing="false"/>

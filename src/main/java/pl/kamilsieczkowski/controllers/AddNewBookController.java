@@ -29,7 +29,7 @@ public class AddNewBookController implements Initializable {
     private Button endButton;
 
     @FXML
-    private Label id_numberLabel;
+    private Label idNumberLabel;
 
     @FXML
     private Label authorLabel;
@@ -47,7 +47,7 @@ public class AddNewBookController implements Initializable {
     private Label tomeLabel;
 
     @FXML
-    private TextField id_numberTextField;
+    private TextField idNumberTextField;
 
     @FXML
     private TextField authorTextField;
@@ -67,41 +67,41 @@ public class AddNewBookController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();
-        id_numberTextField.setText(setDefaultBookIdentifier(
+        idNumberTextField.setText(iterateBookId(
                 new BookRepository(new Connector())));
-        endButton.setOnAction(event -> clickOnEndButton(new Window()));
-        saveButton.setOnAction(event -> clickOnSaveButton(new Window()));
+        endButton.setOnAction(event -> executeEndButton(new Window()));
+        saveButton.setOnAction(event -> executeSaveButton(new Window()));
     }
 
-    private void clickOnEndButton(Window window) {
+    private void executeEndButton(Window window) {
         window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
     }
 
-    private void clickOnSaveButton(Window window) {
+    private void executeSaveButton(Window window) {
         BookRepository bookRepository = new BookRepository(new Connector());
-        insertNewBook(window, bookRepository);
+        insertNewBook(bookRepository);
+        window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
     }
 
-    private void insertNewBook(Window window, BookRepository bookRepository) {
+    private void insertNewBook(BookRepository bookRepository) {
         bookRepository.insertBook(new Book.BookBuilder()
-                .setId_book(Integer.parseInt(id_numberTextField.getText()))
+                .setId_book(Integer.parseInt(idNumberTextField.getText()))
                 .setAuthor(authorTextField.getText())
                 .setTitle(titleTextField.getText())
                 .setKeyWords(keywordsTextField.getText())
                 .setEdition(editionTextField.getText())
                 .setTome(Integer.parseInt(tomeTextField.getText()))
                 .createBook());
-        window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
     }
 
-    private String setDefaultBookIdentifier(BookRepository bookRepository) {
+    private String iterateBookId(BookRepository bookRepository) {
         return Integer.toString(bookRepository.getAllBooks().size() + 1);
     }
 
     private void setWindowText() {
         saveButton.setText(SAVE);
         endButton.setText(END);
-        id_numberLabel.setText(ID_NUMBER);
+        idNumberLabel.setText(ID_NUMBER);
         authorLabel.setText(AUTHOR);
         titleLabel.setText(TITLE);
         keyWordsLabel.setText(KEY_WORDS);

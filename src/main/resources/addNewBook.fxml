@@ -13,7 +13,7 @@
     <VBox prefHeight="410" prefWidth="650" alignment="CENTER">
         <HBox alignment="CENTER">
             <VBox spacing="10.0">
-                <Label fx:id="id_numberLabel" prefHeight="25.0" prefWidth="59.0" text="ID number">
+                <Label fx:id="idNumberLabel" prefHeight="25.0" prefWidth="59.0" text="ID number">
                     <VBox.margin>
                         <Insets top="10.0"/>
                     </VBox.margin>
@@ -30,7 +30,7 @@
                        prefWidth="80.0"/>
             </VBox>
             <VBox spacing="10.0">
-                <TextField fx:id="id_numberTextField" maxWidth="-Infinity" minWidth="-Infinity"
+                <TextField fx:id="idNumberTextField" maxWidth="-Infinity" minWidth="-Infinity"
                            prefHeight="25.0" prefWidth="306.0">
                     <VBox.margin>
                         <Insets top="10.0"/>

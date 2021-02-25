@@ -48,8 +48,7 @@ public class LoginController implements Initializable {
 
     private void checkUserAndPassword(Login loginObject, Window window) {
         if (loginObject.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
-            window.openNewWindow(SOURCE_LIBRARY_WINDOW, IN_LIBRARY);
-            window.closeWindow(this.pane);
+            window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
         } else if (isNotLogged(getLoginObservator(loginObject))) {
             setLoginStatusLabel(LOGIN_DOES_NOT_EXIST);
         } else if (isNotConnectedToDatabase(loginObject)) {

@@ -9,11 +9,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.constants.Texts;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
-import pl.kamilsieczkowski.DTO.BookDTO;
+import pl.kamilsieczkowski.dto.BookDTO;
+import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
@@ -22,14 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static pl.kamilsieczkowski.constants.Constants.*;
+import static pl.kamilsieczkowski.constants.Constants.SOURCE_ADD_NEW_BOOK_WINDOW;
+import static pl.kamilsieczkowski.constants.Constants.SOURCE_EDIT_BOOK;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
 public class LibraryWindowController implements Initializable {
     @FXML
     private Tab publicationsTab;
     @FXML
-    private Label id_numberLabel;
+    private Label idNumberLabel;
     @FXML
     private Label placementLabel;
     @FXML
@@ -73,7 +74,7 @@ public class LibraryWindowController implements Initializable {
     @FXML
     private Pane pane;
     @FXML
-    private TextField id_numberTextField;
+    private TextField idNumberTextField;
     @FXML
     private SplitMenuButton placementMenuButton;
     @FXML
@@ -117,8 +118,12 @@ public class LibraryWindowController implements Initializable {
 
     private void editBook() {
         Book bookToEdit = table.getSelectionModel().getSelectedItem();
-        BookDTO.setBook(bookToEdit);
-        window.changeWindow(pane, SOURCE_EDIT_BOOK);
+        if (bookToEdit == null) {
+            //TODO popup window
+        } else {
+            BookDTO.setBook(bookToEdit);
+            window.changeWindow(pane, SOURCE_EDIT_BOOK);
+        }
     }
 
     private void searchBooks() {
@@ -127,7 +132,7 @@ public class LibraryWindowController implements Initializable {
             //book list
             bookList = bookRepository.findBooksBy
                     (new Book.BookBuilder()
-                            .setId_book(Integer.parseInt(id_numberTextField.getText()))
+                            .setId_book(Integer.parseInt(idNumberTextField.getText()))
                             .setAuthor(authorTextField.getText())
                             .setTitle(titleTextField.getText())
                             .setKeyWords(keyWordsTextField.getText())
@@ -176,7 +181,7 @@ public class LibraryWindowController implements Initializable {
 
     private void setWindowText() {
         publicationsTab.setText(PUBLICATIONS);
-        id_numberLabel.setText(ID_NUMBER);
+        idNumberLabel.setText(ID_NUMBER);
         idNumberColumn.setText(ID_NUMBER);
         placementLabel.setText(Texts.LOCALIZATION);
         keyWordsColumn.setText(KEY_WORDS);
