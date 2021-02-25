@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static pl.kamilsieczkowski.constants.Constants.SOURCE_ADD_NEW_BOOK_WINDOW;
-import static pl.kamilsieczkowski.constants.Constants.SOURCE_EDIT_BOOK_WINDOW;
+import static pl.kamilsieczkowski.constants.Constants.*;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
 public class LibraryWindowController implements Initializable {
@@ -119,7 +118,7 @@ public class LibraryWindowController implements Initializable {
     private void editBook() {
         Book bookToEdit = table.getSelectionModel().getSelectedItem();
         BookDTO.setBook(bookToEdit);
-        window.changeWindow(pane, SOURCE_EDIT_BOOK_WINDOW);
+        window.changeWindow(pane, SOURCE_EDIT_BOOK);
     }
 
     private void searchBooks() {

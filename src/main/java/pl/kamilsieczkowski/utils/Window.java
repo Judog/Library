@@ -49,5 +49,6 @@ public class Window {
         }
         pane.getChildren().setAll(windowToChange);
 
+
     }
 }
