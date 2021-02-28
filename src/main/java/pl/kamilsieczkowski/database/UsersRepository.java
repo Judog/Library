@@ -2,6 +2,7 @@ package pl.kamilsieczkowski.database;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.kamilsieczkowski.dto.UserDTO;
 import pl.kamilsieczkowski.model.User;
 import pl.kamilsieczkowski.observators.Observator;
 
@@ -38,6 +39,7 @@ public class UsersRepository {
             username = resultSet.getString(USERNAME);
             password = resultSet.getString(PASSWORD);
             privilege = resultSet.getString(PRIVILEGE);
+            UserDTO.setUser(new User(username, password, privilege));
             checkIsLoginExist(resultSet);
         } catch (SQLException e) {
             LOG.error("Can't get a result", e);

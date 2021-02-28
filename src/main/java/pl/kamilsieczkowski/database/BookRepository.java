@@ -14,8 +14,8 @@ import java.util.List;
 import static pl.kamilsieczkowski.constants.Constants.*;
 
 public class BookRepository {
-    private final Connector connector;
     public static final Logger LOG = LogManager.getLogger(BookRepository.class);
+    private final Connector connector;
     private static final String QUERY_GET_ALL_BOOKS = "SELECT * FROM library_users.books;";
     private static final String QUERY_INSERT = "INSERT INTO library_users.books VALUES (";
     private static final String QUERY_EDIT = "UPDATE library_users.books SET";
@@ -25,7 +25,7 @@ public class BookRepository {
         this.connector = connector;
     }
 
-    public List<Book> getAllBooks() {
+    public List<Book> getBookList() {
         ResultSet resultSet = this.connector.downloadFromDatabase(QUERY_GET_ALL_BOOKS);
         List<Book> bookList = new ArrayList<>();
         try {
@@ -92,7 +92,7 @@ public class BookRepository {
                 .append(book.getTome()).append("', '").append(book.getEdition()).append("', '").append("library'").append(");").toString();
     }
 
-    public List<Book> findBooksBy(Book searchedBook) throws SQLException {
+    public List<Book> searchBooks(Book searchedBook) throws SQLException {
         ResultSet resultSet = this.connector.downloadFromDatabase(getSearchedBooksQuery(searchedBook));
         List<Book> searchedBooks = new ArrayList<>();
         while (resultSet.next()) {
@@ -123,8 +123,7 @@ public class BookRepository {
     private String getPlacement(String placement) {
         if (placement.equals("All")) {
             placement = "";
-            // for searching in query, all meaning in library and borrowed -
-            // must be empty for searching result with library and borrowed placement
+           //placement method created for SQL. All needs to be changed for empty string
         }
         return placement;
     }

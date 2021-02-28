@@ -36,7 +36,8 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();
-        loginButton.setOnAction(login -> checkUserAndPassword(new Login(), new Window()));
+        loginButton.setOnAction(login ->
+                checkUserAndPassword(new Login(), new Window()));
     }
 
     private void setWindowText() {

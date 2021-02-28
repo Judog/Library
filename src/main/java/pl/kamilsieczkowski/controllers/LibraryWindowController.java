@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static pl.kamilsieczkowski.constants.Constants.SOURCE_ADD_NEW_BOOK_WINDOW;
-import static pl.kamilsieczkowski.constants.Constants.SOURCE_EDIT_BOOK;
+import static pl.kamilsieczkowski.constants.Constants.*;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
 public class LibraryWindowController implements Initializable {
@@ -102,10 +101,10 @@ public class LibraryWindowController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //displayed things
         setWindowText();
-        ObservableList<Book> listOfBooks = FXCollections.observableArrayList(bookRepository.getAllBooks());
-        displayHowManyBooksFound(listOfBooks);
-        displayAvailableBooksFound(listOfBooks);
-        viewTable(listOfBooks);
+        ObservableList<Book> listOfBooks = FXCollections.observableArrayList(bookRepository.getBookList());
+        displayNumberOfBooks(listOfBooks);
+        displayNumberOfAvaibileBooks(listOfBooks);
+        createTable(listOfBooks);
         //buttons
         searchButton.setOnAction(event -> searchBooks());
         addNewButton.setOnAction(event -> window.changeWindow(pane, SOURCE_ADD_NEW_BOOK_WINDOW));
@@ -119,7 +118,7 @@ public class LibraryWindowController implements Initializable {
     private void editBook() {
         Book bookToEdit = table.getSelectionModel().getSelectedItem();
         if (bookToEdit == null) {
-            //TODO popup window
+            window.openNewWindow(POPUP_SELECT_BOOK, WARNING);
         } else {
             BookDTO.setBook(bookToEdit);
             window.changeWindow(pane, SOURCE_EDIT_BOOK);
@@ -130,7 +129,7 @@ public class LibraryWindowController implements Initializable {
         List<Book> bookList = new ArrayList<>();
         try {
             //book list
-            bookList = bookRepository.findBooksBy
+            bookList = bookRepository.searchBooks
                     (new Book.BookBuilder()
                             .setId_book(Integer.parseInt(idNumberTextField.getText()))
                             .setAuthor(authorTextField.getText())
@@ -141,34 +140,35 @@ public class LibraryWindowController implements Initializable {
         } catch (SQLException sqlException) {
             LOG.error("Can't get book list, ");
         }
+
         ObservableList<Book> searchedBookList = FXCollections.observableArrayList(bookList);
         //viewers
-        viewTable(searchedBookList);
-        displayHowManyBooksFound(searchedBookList);
-        displayAvailableBooksFound(searchedBookList);
+        createTable(searchedBookList);
+        displayNumberOfBooks(searchedBookList);
+        displayNumberOfAvaibileBooks(searchedBookList);
     }
 
-    void displayHowManyBooksFound(ObservableList<Book> observableList) {
+    void displayNumberOfBooks(ObservableList<Book> observableList) {
         foundLabel.setText(FOUND + SPACE + observableList.size());
     }
 
-    void displayAvailableBooksFound(ObservableList<Book> observableList) {
+    void displayNumberOfAvaibileBooks(ObservableList<Book> observableList) {
         int numberOfBooksInLibrary = 0;
         Book bookInLibrary = new Book.BookBuilder().setLocalization(IN_LIBRARY).createBook();
         for (Book book : observableList) {
-            numberOfBooksInLibrary = getPlusOneWhenBookIsInLibrary(numberOfBooksInLibrary, bookInLibrary, book);
+            numberOfBooksInLibrary = iterateWhenBookIsInLibrary(numberOfBooksInLibrary, bookInLibrary, book);//TODO SQL Query Change
         }
         availabilityLabel.setText(AVAILABILITY + SPACE + numberOfBooksInLibrary);
     }
 
-    private int getPlusOneWhenBookIsInLibrary(int numberOfBooksInLibrary, Book bookInLibrary, Book book) {
+    private int iterateWhenBookIsInLibrary(int numberOfBooksInLibrary, Book bookInLibrary, Book book) {
         if (book.equals(bookInLibrary)) {
-            numberOfBooksInLibrary = numberOfBooksInLibrary + 1;
+            numberOfBooksInLibrary++;
         }
         return numberOfBooksInLibrary;
     }
 
-    void viewTable(ObservableList<Book> observableList) {
+    void createTable(ObservableList<Book> observableList) {
         table.setItems(observableList);
         idNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id_book"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));

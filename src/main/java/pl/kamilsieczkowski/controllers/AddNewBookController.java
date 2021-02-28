@@ -63,24 +63,33 @@ public class AddNewBookController implements Initializable {
 
     @FXML
     private TextField tomeTextField;
+    private Connector connector;
+    private Window window;
+    private BookRepository bookRepository;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setInstances();
         setWindowText();
         idNumberTextField.setText(iterateBookId(
-                new BookRepository(new Connector())));
-        endButton.setOnAction(event -> executeEndButton(new Window()));
-        saveButton.setOnAction(event -> executeSaveButton(new Window()));
+                new BookRepository(connector)));
+        endButton.setOnAction(event -> executeEndButton(window));
+        saveButton.setOnAction(event -> executeSaveButton(window, bookRepository));
     }
 
     private void executeEndButton(Window window) {
         window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
     }
 
-    private void executeSaveButton(Window window) {
-        BookRepository bookRepository = new BookRepository(new Connector());
+    private void executeSaveButton(Window window, BookRepository bookRepository) {
         insertNewBook(bookRepository);
         window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
+    }
+
+    private void setInstances() {
+        this.connector = new Connector();
+        this.window = new Window();
+        this.bookRepository = new BookRepository(connector);
     }
 
     private void insertNewBook(BookRepository bookRepository) {
@@ -95,7 +104,7 @@ public class AddNewBookController implements Initializable {
     }
 
     private String iterateBookId(BookRepository bookRepository) {
-        return Integer.toString(bookRepository.getAllBooks().size() + 1);
+        return Integer.toString(bookRepository.getBookList().size() + 1);
     }
 
     private void setWindowText() {

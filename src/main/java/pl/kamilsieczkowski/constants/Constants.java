@@ -15,4 +15,5 @@ public class Constants {
     public static final String SOURCE_ADD_NEW_BOOK_WINDOW = "/addNewBook.fxml";
     public static final String SOURCE_LIBRARY_WINDOW = "/libraryWindow.fxml";
     public static final String SOURCE_EDIT_BOOK = "/editBook.fxml";
+    public static final String POPUP_SELECT_BOOK = "/popupSelectBook.fxml";
 }
