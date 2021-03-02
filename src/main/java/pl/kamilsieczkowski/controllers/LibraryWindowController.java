@@ -103,7 +103,7 @@ public class LibraryWindowController implements Initializable {
         setWindowText();
         ObservableList<Book> listOfBooks = FXCollections.observableArrayList(bookRepository.getBookList());
         displayNumberOfBooks(listOfBooks);
-        displayNumberOfAvaibileBooks(listOfBooks);
+        displayNumberOfAvailableBooks(listOfBooks);
         createTable(listOfBooks);
         //buttons
         searchButton.setOnAction(event -> searchBooks());
@@ -145,14 +145,14 @@ public class LibraryWindowController implements Initializable {
         //viewers
         createTable(searchedBookList);
         displayNumberOfBooks(searchedBookList);
-        displayNumberOfAvaibileBooks(searchedBookList);
+        displayNumberOfAvailableBooks(searchedBookList);
     }
 
     void displayNumberOfBooks(ObservableList<Book> observableList) {
         foundLabel.setText(FOUND + SPACE + observableList.size());
     }
 
-    void displayNumberOfAvaibileBooks(ObservableList<Book> observableList) {
+    void displayNumberOfAvailableBooks(ObservableList<Book> observableList) {
         int numberOfBooksInLibrary = 0;
         Book bookInLibrary = new Book.BookBuilder().setLocalization(IN_LIBRARY).createBook();
         for (Book book : observableList) {

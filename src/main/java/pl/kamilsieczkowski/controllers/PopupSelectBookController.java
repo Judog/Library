@@ -21,7 +21,6 @@ public class PopupSelectBookController implements Initializable {
     private Label textLabel;
     Window window;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();

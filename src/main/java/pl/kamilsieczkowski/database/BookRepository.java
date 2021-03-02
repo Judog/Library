@@ -15,11 +15,11 @@ import static pl.kamilsieczkowski.constants.Constants.*;
 
 public class BookRepository {
     public static final Logger LOG = LogManager.getLogger(BookRepository.class);
-    private final Connector connector;
     private static final String QUERY_GET_ALL_BOOKS = "SELECT * FROM library_users.books;";
     private static final String QUERY_INSERT = "INSERT INTO library_users.books VALUES (";
     private static final String QUERY_EDIT = "UPDATE library_users.books SET";
     private static final String QUERY = "SELECT * FROM library_users.books WHERE ";
+    private final Connector connector;
 
     public BookRepository(Connector connector) {
         this.connector = connector;

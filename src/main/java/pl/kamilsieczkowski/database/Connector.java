@@ -2,13 +2,8 @@ package pl.kamilsieczkowski.database;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.kamilsieczkowski.observators.Observator;
 
-import java.sql.PreparedStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static pl.kamilsieczkowski.constants.Constants.*;
 
@@ -16,17 +11,16 @@ public class Connector {
     private Connection con;
     private PreparedStatement pst;
     private ResultSet executeQuery;
-    private Observator connectionObservator;
-
-    public Observator getConnectionObservator() {
-        return connectionObservator;
-    }
+    private boolean isConnected;
 
     public static final Logger LOG = LogManager.getLogger(Connector.class);
 
     public Connector() {
         this.con = getDatabaseConnection();
-        this.connectionObservator = new Observator();
+    }
+
+    public Connection getCon() {
+        return con;
     }
 
     public ResultSet downloadFromDatabase(String enteredQuery) {
@@ -42,11 +36,16 @@ public class Connector {
     public Connection getDatabaseConnection() {
         try {
             this.con = DriverManager.getConnection(SERVER_URL, SERVER_USER, SERVER_PASSWORD);
+            isConnected = true;
         } catch (SQLException e) {
-            connectionObservator.setObservatatedProcessNotExecuted(false);
+            isConnected = false;
             LOG.error("Can't get database connection", e);
         }
         return con;
+    }
+
+    public boolean isConnected() {
+        return isConnected;
     }
 
     public void closeConnection() {
@@ -62,6 +61,7 @@ public class Connector {
         }
         try {
             con.close();
+            isConnected = false;
         } catch (SQLException e) {
             LOG.error("Can't close connection", e);
         }

@@ -7,8 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import pl.kamilsieczkowski.login.Login;
-import pl.kamilsieczkowski.observators.Observator;
+import pl.kamilsieczkowski.database.Connector;
+import pl.kamilsieczkowski.database.UsersRepository;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
@@ -37,7 +37,7 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();
         loginButton.setOnAction(login ->
-                checkUserAndPassword(new Login(), new Window()));
+                checkUserAndPassword(new UsersRepository(new Connector()), new Window()));
     }
 
     private void setWindowText() {
@@ -47,36 +47,19 @@ public class LoginController implements Initializable {
         loginButton.setText(LOGIN);
     }
 
-    private void checkUserAndPassword(Login loginObject, Window window) {
-        if (loginObject.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
-            window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
-        } else if (isNotLogged(getLoginObservator(loginObject))) {
-            setLoginStatusLabel(LOGIN_DOES_NOT_EXIST);
-        } else if (isNotConnectedToDatabase(loginObject)) {
+    private void checkUserAndPassword(UsersRepository usersRepository, Window window) {
+        if (!usersRepository.isConnected()) {
             setLoginStatusLabel(CANT_CONNECT);
+        } else if (!usersRepository.checkIsLoginExist(this.loginField.getText())) {
+            setLoginStatusLabel(LOGIN_DOES_NOT_EXIST);
+        } else if (usersRepository.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
+            window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
         } else {
             loginStatus.setText(LOGIN_FAILED);
         }
     }
 
-    private boolean isNotLogged(Observator loginObservator) {
-        return loginObservator.isObservatatedProcessNotExecuted();
-    }
-
-    private Observator getLoginObservator(Login loginObject) {
-        return loginObject
-                .getUsersRepository()
-                .getLoginObservator();
-    }
-
     private void setLoginStatusLabel(String text) {
         loginStatus.setText(text);
-    }
-
-    private boolean isNotConnectedToDatabase(Login loginObject) {
-        return loginObject.getUsersRepository()
-                .getConnector()
-                .getConnectionObservator()
-                .isObservatatedProcessNotExecuted();
     }
 }

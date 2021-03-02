@@ -106,11 +106,11 @@ public class EditBookController implements Initializable {
     }
 
     private void executeSaveButton(Window window) {
-        editBook(window, new BookRepository(new Connector()));
+        editBook(new BookRepository(new Connector()));
         window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
     }
 
-    private void editBook(Window window, BookRepository bookRepository) {
+    private void editBook(BookRepository bookRepository) {
         bookRepository.updateBook(mapBook(),
                 bookToEdit.getId_book());
     }

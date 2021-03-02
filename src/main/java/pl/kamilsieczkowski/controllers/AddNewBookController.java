@@ -18,7 +18,6 @@ import static pl.kamilsieczkowski.constants.Constants.SOURCE_LIBRARY_WINDOW;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
 public class AddNewBookController implements Initializable {
-
     @FXML
     private Pane pane;
 
