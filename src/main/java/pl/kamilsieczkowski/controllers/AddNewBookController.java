@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
-import pl.kamilsieczkowski.model.Book;
+import pl.kamilsieczkowski.utils.BookMapper;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 import static pl.kamilsieczkowski.constants.Constants.SOURCE_LIBRARY_WINDOW;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
-public class AddNewBookController implements Initializable {
+public class AddNewBookController extends BookMapper implements Initializable {
     @FXML
     private Pane pane;
 
@@ -47,21 +47,6 @@ public class AddNewBookController implements Initializable {
 
     @FXML
     private TextField idNumberTextField;
-
-    @FXML
-    private TextField authorTextField;
-
-    @FXML
-    private TextField titleTextField;
-
-    @FXML
-    private TextField keywordsTextField;
-
-    @FXML
-    private TextField editionTextField;
-
-    @FXML
-    private TextField tomeTextField;
     private Connector connector;
     private Window window;
     private BookRepository bookRepository;
@@ -92,14 +77,7 @@ public class AddNewBookController implements Initializable {
     }
 
     private void insertNewBook(BookRepository bookRepository) {
-        bookRepository.insertBook(new Book.BookBuilder()
-                .setId_book(Integer.parseInt(idNumberTextField.getText()))
-                .setAuthor(authorTextField.getText())
-                .setTitle(titleTextField.getText())
-                .setKeyWords(keywordsTextField.getText())
-                .setEdition(editionTextField.getText())
-                .setTome(Integer.parseInt(tomeTextField.getText()))
-                .createBook());
+        bookRepository.insertBook(mapBook());
     }
 
     private String iterateBookId(BookRepository bookRepository) {

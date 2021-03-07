@@ -19,10 +19,6 @@ public class Connector {
         this.con = getDatabaseConnection();
     }
 
-    public Connection getCon() {
-        return con;
-    }
-
     public ResultSet downloadFromDatabase(String enteredQuery) {
         try {
             this.pst = con.prepareStatement(enteredQuery);

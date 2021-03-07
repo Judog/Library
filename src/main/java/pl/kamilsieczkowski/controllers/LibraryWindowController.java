@@ -13,6 +13,7 @@ import pl.kamilsieczkowski.constants.Texts;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
 import pl.kamilsieczkowski.dto.BookDTO;
+import pl.kamilsieczkowski.utils.BookMapper;
 import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.utils.Window;
 
@@ -25,7 +26,7 @@ import java.util.ResourceBundle;
 import static pl.kamilsieczkowski.constants.Constants.*;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
-public class LibraryWindowController implements Initializable {
+public class LibraryWindowController extends BookMapper implements Initializable {
     @FXML
     private Tab publicationsTab;
     @FXML
@@ -73,8 +74,6 @@ public class LibraryWindowController implements Initializable {
     @FXML
     private Pane pane;
     @FXML
-    private TextField idNumberTextField;
-    @FXML
     private SplitMenuButton placementMenuButton;
     @FXML
     private MenuItem library;
@@ -82,12 +81,6 @@ public class LibraryWindowController implements Initializable {
     private MenuItem borrowed;
     @FXML
     private MenuItem all;
-    @FXML
-    private TextField authorTextField;
-    @FXML
-    private TextField titleTextField;
-    @FXML
-    private TextField keyWordsTextField;
     private final Window window;
     private final BookRepository bookRepository;
     public static final Logger LOG = LogManager.getLogger(LibraryWindowController.class);
@@ -129,14 +122,7 @@ public class LibraryWindowController implements Initializable {
         List<Book> bookList = new ArrayList<>();
         try {
             //book list
-            bookList = bookRepository.searchBooks
-                    (new Book.BookBuilder()
-                            .setId_book(Integer.parseInt(idNumberTextField.getText()))
-                            .setAuthor(authorTextField.getText())
-                            .setTitle(titleTextField.getText())
-                            .setKeyWords(keyWordsTextField.getText())
-                            .setLocalization(placementMenuButton.getText())
-                            .createBook());
+            bookList = bookRepository.searchBooks(mapBook());
         } catch (SQLException sqlException) {
             LOG.error("Can't get book list, ");
         }

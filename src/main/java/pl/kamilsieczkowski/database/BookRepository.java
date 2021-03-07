@@ -2,6 +2,8 @@ package pl.kamilsieczkowski.database;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.kamilsieczkowski.dto.UserDTO;
+import pl.kamilsieczkowski.utils.BookMapper;
 import pl.kamilsieczkowski.model.Book;
 
 import java.sql.Connection;
@@ -13,7 +15,7 @@ import java.util.List;
 
 import static pl.kamilsieczkowski.constants.Constants.*;
 
-public class BookRepository {
+public class BookRepository extends BookMapper {
     public static final Logger LOG = LogManager.getLogger(BookRepository.class);
     private static final String QUERY_GET_ALL_BOOKS = "SELECT * FROM library_users.books;";
     private static final String QUERY_INSERT = "INSERT INTO library_users.books VALUES (";
@@ -37,7 +39,7 @@ public class BookRepository {
                 int tome = resultSet.getInt(COLUMN_TOME);
                 String edition = resultSet.getString(COLUMN_EDITION);
                 String localization = resultSet.getString(COLUMN_LOCALIZATION);
-                bookList.add(new Book.BookBuilder()
+                Book book = new Book.BookBuilder()
                         .setId_book(id_books)
                         .setAuthor(author)
                         .setTitle(title)
@@ -45,12 +47,29 @@ public class BookRepository {
                         .setTome(tome)
                         .setEdition(edition)
                         .setLocalization(localization)
-                        .createBook());
+                        .createBook();
+                filtrateBook(bookList, localization, book);
             }
         } catch (SQLException exception) {
             LOG.error("Can't get bookList from server", exception);
         }
         return bookList;
+    }
+
+    private void filtrateBook(List<Book> bookList, String localization, Book book) {
+        if (isClient() && localization.equals(LIBRARY)) {
+            bookList.add(book);
+        } else if (isAdminOrEmployee()) {
+            bookList.add(book);
+        }
+    }
+
+    private boolean isAdminOrEmployee() {
+        return !UserDTO.getUser().getPrivilege().equals(CLIENT);
+    }
+
+    private boolean isClient() {
+        return UserDTO.getUser().getPrivilege().equals(CLIENT);
     }
 
     public void executeQuery(String enteredQuery) throws SQLException {
@@ -123,7 +142,7 @@ public class BookRepository {
     private String getPlacement(String placement) {
         if (placement.equals("All")) {
             placement = "";
-           //placement method created for SQL. All needs to be changed for empty string
+            //placement method created for SQL. All needs to be changed for empty string
         }
         return placement;
     }

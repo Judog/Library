@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
+import pl.kamilsieczkowski.utils.BookMapper;
 import pl.kamilsieczkowski.model.Book;
 import pl.kamilsieczkowski.dto.BookDTO;
 import pl.kamilsieczkowski.utils.Window;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 import static pl.kamilsieczkowski.constants.Constants.SOURCE_LIBRARY_WINDOW;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
-public class EditBookController implements Initializable {
+public class EditBookController extends BookMapper implements Initializable {
     public static final Logger LOG = LogManager.getLogger(EditBookController.class);
     @FXML
     private Pane pane;
@@ -113,17 +114,6 @@ public class EditBookController implements Initializable {
     private void editBook(BookRepository bookRepository) {
         bookRepository.updateBook(mapBook(),
                 bookToEdit.getId_book());
-    }
-
-    private Book mapBook() {
-        return new Book.BookBuilder()
-                .setId_book(Integer.parseInt(idNumberTextField.getText()))
-                .setAuthor(authorTextField.getText())
-                .setTitle(titleTextField.getText())
-                .setKeyWords(keywordsTextField.getText())
-                .setEdition(editionTextField.getText())
-                .setTome(Integer.parseInt(tomeTextField.getText()))
-                .createBook();
     }
 
     private void setWindowText() {

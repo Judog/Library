@@ -10,10 +10,6 @@ public class UserDTO {
         return user;
     }
 
-    public static boolean isUserLogged() {
-        return isUserLogged;
-    }
-
     public static void setUser(User user) {
         isUserLogged = true;
         UserDTO.user = user;
