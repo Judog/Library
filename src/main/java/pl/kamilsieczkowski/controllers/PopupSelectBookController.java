@@ -14,7 +14,7 @@ import static pl.kamilsieczkowski.constants.Texts.*;
 
 public class PopupSelectBookController implements Initializable {
     @FXML
-    Pane pane;
+    private Pane pane;
     @FXML
     private Button okButton;
     @FXML

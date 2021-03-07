@@ -13,8 +13,8 @@ import static pl.kamilsieczkowski.constants.Constants.USERNAME;
 
 public class Login {
     private final String QUERY_CHECK_USERS = "SELECT username FROM library_users.users;";
-    private Connector connector;
-    private UsersRepository usersRepository;
+    private final Connector connector;
+    private final UsersRepository usersRepository;
     private boolean isExist;
 
     public static final Logger LOG = LogManager.getLogger(Login.class);
@@ -39,13 +39,17 @@ public class Login {
         ResultSet resultSet = connector.downloadFromDatabase(QUERY_CHECK_USERS);
         try {
             while (resultSet.next()) {
-                String username = resultSet.getString(USERNAME);
-                isExist = ifUserEquals(user, username);
+                checkUsername(user, resultSet);
             }
         } catch (SQLException e) {
             LOG.error("Can't get a result", e);
         }
         return isExist;
+    }
+
+    private void checkUsername(String user, ResultSet resultSet) throws SQLException {
+        String username = resultSet.getString(USERNAME);
+        isExist = ifUserEquals(user, username);
     }
 
     private boolean ifUserEquals(String user, String username) {

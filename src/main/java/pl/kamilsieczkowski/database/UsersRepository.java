@@ -35,9 +35,7 @@ public class UsersRepository {
         } catch (SQLException e) {
             LOG.error("Can't get a result", e);
         } finally {
-            connector.preparedStatementClose();
-            connector.executeQueryClose();
-            connector.closeConnection();
+            connector.closeConnector();
         }
         return new User(username, password, privilege);
     }
@@ -45,6 +43,4 @@ public class UsersRepository {
     public boolean isConnected() {
         return connector.isConnected();
     }
-
-
 }

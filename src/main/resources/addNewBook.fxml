@@ -42,7 +42,7 @@
                            minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0"/>
                 <TextField fx:id="tomeTextField" maxWidth="-Infinity"
                            minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0"/>
-                <TextField fx:id="keywordsTextField" maxWidth="-Infinity"
+                <TextField fx:id="keyWordsTextField" maxWidth="-Infinity"
                            minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0"/>
                 <TextField fx:id="editionTextField" maxWidth="-Infinity"
                            minWidth="-Infinity" prefHeight="25.0" prefWidth="306.0"/>

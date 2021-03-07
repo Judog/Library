@@ -15,7 +15,7 @@ public abstract class BookMapper {
     private TextField titleTextField;
 
     @FXML
-    private TextField keywordsTextField;
+    private TextField keyWordsTextField;
 
     @FXML
     private TextField editionTextField;
@@ -28,7 +28,7 @@ public abstract class BookMapper {
                 .setId_book(Integer.parseInt(idNumberTextField.getText()))
                 .setAuthor(authorTextField.getText())
                 .setTitle(titleTextField.getText())
-                .setKeyWords(keywordsTextField.getText())
+                .setKeyWords(keyWordsTextField.getText())
                 .setEdition(editionTextField.getText())
                 .setTome(Integer.parseInt(tomeTextField.getText()))
                 .createBook();
