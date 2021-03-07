@@ -18,4 +18,7 @@ public class Constants {
     public static final String POPUP_SELECT_BOOK = "/popupSelectBook.fxml";
     public static final String LIBRARY = "library";
     public static final String CLIENT = "CLIENT";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String PRIVILEGE = "privilege";
 }

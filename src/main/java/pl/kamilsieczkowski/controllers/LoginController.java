@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import pl.kamilsieczkowski.database.Connector;
 import pl.kamilsieczkowski.database.UsersRepository;
+import pl.kamilsieczkowski.utils.Login;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.net.URL;
@@ -37,7 +38,9 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setWindowText();
         loginButton.setOnAction(login ->
-                checkUserAndPassword(new UsersRepository(new Connector()), new Window()));
+                checkUserAndPassword(new UsersRepository(new Connector())
+                        , new Window()
+                        , new Login()));
     }
 
     private void setWindowText() {
@@ -47,12 +50,12 @@ public class LoginController implements Initializable {
         loginButton.setText(LOGIN);
     }
 
-    private void checkUserAndPassword(UsersRepository usersRepository, Window window) {
+    private void checkUserAndPassword(UsersRepository usersRepository, Window window, Login login) {
         if (!usersRepository.isConnected()) {
             setLoginStatusLabel(CANT_CONNECT);
-        } else if (!usersRepository.checkIsLoginExist(this.loginField.getText())) {
+        } else if (!login.checkIsLoginExist(this.loginField.getText())) {
             setLoginStatusLabel(LOGIN_DOES_NOT_EXIST);
-        } else if (usersRepository.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
+        } else if (login.isLoginSuccessful(this.loginField.getText(), this.passwordField.getText())) {
             window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
         } else {
             loginStatus.setText(LOGIN_FAILED);

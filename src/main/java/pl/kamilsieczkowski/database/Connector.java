@@ -44,22 +44,31 @@ public class Connector {
         return isConnected;
     }
 
+    public void setConnected(boolean connected) {
+        isConnected = connected;
+    }
+
     public void closeConnection() {
-        try {
-            executeQuery.close();
-        } catch (SQLException e) {
-            LOG.error("Can't close execute Query", e);
-        }
-        try {
-            pst.close();
-        } catch (SQLException e) {
-            LOG.error("Can't close preparedStatement", e);
-        }
         try {
             con.close();
             isConnected = false;
         } catch (SQLException e) {
             LOG.error("Can't close connection", e);
+        }
+    }
+
+    public void preparedStatementClose() {
+        try {
+            pst.close();
+        } catch (SQLException e) {
+            LOG.error("Can't close preparedStatement", e);
+        }
+    }
+    public void executeQueryClose(){
+        try {
+            executeQuery.close();
+        } catch (SQLException e) {
+            LOG.error("Can't close execute Query", e);
         }
     }
 }

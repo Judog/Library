@@ -8,15 +8,12 @@ import pl.kamilsieczkowski.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static pl.kamilsieczkowski.constants.Constants.*;
+
 public class UsersRepository {
     public static final Logger LOG = LogManager.getLogger(UsersRepository.class);
     private final Connector connector;
     private final String QUERY_USER = "SELECT * FROM library_users.users WHERE username='";
-    private final String QUERY_CHECK_USERS = "SELECT username FROM library_users.users;";
-    private final String USERNAME = "username";
-    private final String PASSWORD = "password";
-    private final String PRIVILEGE = "privilege";
-    private boolean isExist;
 
     public UsersRepository(Connector connector) {
         this.connector = connector;
@@ -38,6 +35,8 @@ public class UsersRepository {
         } catch (SQLException e) {
             LOG.error("Can't get a result", e);
         } finally {
+            connector.preparedStatementClose();
+            connector.executeQueryClose();
             connector.closeConnection();
         }
         return new User(username, password, privilege);
@@ -47,34 +46,5 @@ public class UsersRepository {
         return connector.isConnected();
     }
 
-    public boolean checkIsLoginExist(String user) {
-        isExist = false;
-        ResultSet resultSet = connector.downloadFromDatabase(QUERY_CHECK_USERS);
-        try {
-            while (resultSet.next()) {
-                String username = resultSet.getString(USERNAME);
-                isExist = ifUserEquals(user, username);
-            }
-        } catch (SQLException e) {
-            LOG.error("Can't get a result", e);
-        }
-        return isExist;
-    }
 
-    private boolean ifUserEquals(String user, String username) {
-        if (username.equals(user)) {
-            isExist = true;
-        }
-        return isExist;
-    }
-
-    public boolean isLoginSuccessful(String login, String password) {
-        User user = new User(login, password, null);
-        User databaseUser = connectUsersDatabase(login);
-        return isUserAndPasswordCorrect(databaseUser, user);
-    }
-
-    private boolean isUserAndPasswordCorrect(User databaseUser, User user) {
-        return user.equals(databaseUser);
-    }
 }
