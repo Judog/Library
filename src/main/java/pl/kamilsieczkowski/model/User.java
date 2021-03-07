@@ -7,7 +7,11 @@ public class User {
     private final String password;
     private final String privilege;
 
-    public User(final String login, final String password, final String privilege) {
+    public String getPrivilege() {
+        return privilege;
+    }
+
+    public User(String login, String password, String privilege) {
         this.login = login;
         this.password = password;
         this.privilege = privilege;

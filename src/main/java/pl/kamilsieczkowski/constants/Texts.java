@@ -30,4 +30,7 @@ public class Texts {
     public static final String ALL = "All";
     public static final String CANT_CONNECT = "can't connect into the database";
     public static final String LOGIN_DOES_NOT_EXIST = "Login doesn't exist";
+    public static final String SELECT_BOOK = "Select book to edit";
+    public static final String OK = "Ok";
+    public static final String WARNING = "Warning";
 }

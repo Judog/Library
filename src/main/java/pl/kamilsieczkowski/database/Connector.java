@@ -2,13 +2,8 @@ package pl.kamilsieczkowski.database;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.kamilsieczkowski.observators.Observator;
 
-import java.sql.PreparedStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static pl.kamilsieczkowski.constants.Constants.*;
 
@@ -16,17 +11,12 @@ public class Connector {
     private Connection con;
     private PreparedStatement pst;
     private ResultSet executeQuery;
-    private Observator connectionObservator;
-
-    public Observator getConnectionObservator() {
-        return connectionObservator;
-    }
+    private boolean isConnected;
 
     public static final Logger LOG = LogManager.getLogger(Connector.class);
 
     public Connector() {
         this.con = getDatabaseConnection();
-        this.connectionObservator = new Observator();
     }
 
     public ResultSet downloadFromDatabase(String enteredQuery) {
@@ -34,7 +24,7 @@ public class Connector {
             this.pst = con.prepareStatement(enteredQuery);
             this.executeQuery = pst.executeQuery();
         } catch (SQLException e) {
-            LOG.error("can't download from database",e);
+            LOG.error("can't download from database", e);
         }
         return executeQuery;
     }
@@ -42,20 +32,47 @@ public class Connector {
     public Connection getDatabaseConnection() {
         try {
             this.con = DriverManager.getConnection(SERVER_URL, SERVER_USER, SERVER_PASSWORD);
+            isConnected = true;
         } catch (SQLException e) {
-            connectionObservator.setObservatatedProcessNotExecuted(false);
-            LOG.error("Can't get database connection",e);
+            isConnected = false;
+            LOG.error("Can't get database connection", e);
         }
         return con;
     }
 
-    public void closeConnection() {
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+
+    public void closeConnector() {
+        executeQueryClose();
+        preparedStatementClose();
+        closeConnection();
+    }
+
+    private void closeConnection() {
+        try {
+            con.close();
+            isConnected = false;
+        } catch (SQLException e) {
+            LOG.error("Can't close connection", e);
+        }
+    }
+
+    private void preparedStatementClose() {
+        try {
+            pst.close();
+        } catch (SQLException e) {
+            LOG.error("Can't close preparedStatement", e);
+        }
+    }
+
+    private void executeQueryClose() {
         try {
             executeQuery.close();
-            pst.close();
-            con.close();
         } catch (SQLException e) {
-            LOG.error("Can't close connection",e);
+            LOG.error("Can't close execute Query", e);
         }
     }
 }

@@ -48,6 +48,5 @@ public class Window {
             LOG.error("can't get Window resource", e);
         }
         pane.getChildren().setAll(windowToChange);
-
     }
 }

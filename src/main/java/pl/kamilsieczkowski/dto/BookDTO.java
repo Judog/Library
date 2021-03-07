@@ -1,4 +1,4 @@
-package pl.kamilsieczkowski.DTO;
+package pl.kamilsieczkowski.dto;
 
 import pl.kamilsieczkowski.model.Book;
 

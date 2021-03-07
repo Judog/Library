@@ -10,8 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.kamilsieczkowski.database.BookRepository;
 import pl.kamilsieczkowski.database.Connector;
+import pl.kamilsieczkowski.utils.BookMapper;
 import pl.kamilsieczkowski.model.Book;
-import pl.kamilsieczkowski.DTO.BookDTO;
+import pl.kamilsieczkowski.dto.BookDTO;
 import pl.kamilsieczkowski.utils.Window;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 import static pl.kamilsieczkowski.constants.Constants.SOURCE_LIBRARY_WINDOW;
 import static pl.kamilsieczkowski.constants.Texts.*;
 
-public class EditBookController implements Initializable {
+public class EditBookController extends BookMapper implements Initializable {
     public static final Logger LOG = LogManager.getLogger(EditBookController.class);
     @FXML
     private Pane pane;
@@ -33,7 +34,7 @@ public class EditBookController implements Initializable {
     private Button endButton;
 
     @FXML
-    private Label id_numberLabel;
+    private Label idNumberLabel;
 
     @FXML
     private Label authorLabel;
@@ -51,7 +52,7 @@ public class EditBookController implements Initializable {
     private Label tomeLabel;
 
     @FXML
-    private TextField id_numberTextField;
+    private TextField idNumberTextField;
 
     @FXML
     private TextField authorTextField;
@@ -78,12 +79,12 @@ public class EditBookController implements Initializable {
             LOG.error("Can't get book to edition", e);
         }
         setWindowText();
-        endButton.setOnAction(event -> clickOnEndButton(new Window()));
-        saveButton.setOnAction(event -> clickOnSaveButton(new Window()));
+        endButton.setOnAction(event -> executeEndButton(new Window()));
+        saveButton.setOnAction(event -> executeSaveButton(new Window()));
     }
 
     private Book getBookToEdit() throws IOException {
-        bookToEdit = mapBook();
+        bookToEdit = null;
         if (BookDTO.isIsBookAvailable()) {
             bookToEdit = BookDTO.getBook();
         } else {
@@ -93,7 +94,7 @@ public class EditBookController implements Initializable {
     }
 
     private void getLabelsToEdit(Book bookToEdit) {
-        id_numberTextField.setText(Integer.toString(bookToEdit.getId_book()));
+        idNumberTextField.setText(Integer.toString(bookToEdit.getId_book()));
         authorTextField.setText(bookToEdit.getAuthor());
         titleTextField.setText(bookToEdit.getTitle());
         keywordsTextField.setText(bookToEdit.getKeyWords());
@@ -101,35 +102,24 @@ public class EditBookController implements Initializable {
         tomeTextField.setText(Integer.toString(bookToEdit.getTome()));
     }
 
-    private void clickOnEndButton(Window window) {
+    private void executeEndButton(Window window) {
         window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
     }
 
-    private void clickOnSaveButton(Window window) {
-        editBook(window, new BookRepository(new Connector()));
+    private void executeSaveButton(Window window) {
+        editBook(new BookRepository(new Connector()));
+        window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
     }
 
-    private void editBook(Window window, BookRepository bookRepository) {
+    private void editBook(BookRepository bookRepository) {
         bookRepository.updateBook(mapBook(),
                 bookToEdit.getId_book());
-        window.changeWindow(pane, SOURCE_LIBRARY_WINDOW);
-    }
-
-    private Book mapBook() {
-        return new Book.BookBuilder()
-                .setId_book(Integer.parseInt(id_numberTextField.getText()))
-                .setAuthor(authorTextField.getText())
-                .setTitle(titleTextField.getText())
-                .setKeyWords(keywordsTextField.getText())
-                .setEdition(editionTextField.getText())
-                .setTome(Integer.parseInt(tomeTextField.getText()))
-                .createBook();
     }
 
     private void setWindowText() {
         saveButton.setText(SAVE);
         endButton.setText(END);
-        id_numberLabel.setText(ID_NUMBER);
+        idNumberLabel.setText(ID_NUMBER);
         authorLabel.setText(AUTHOR);
         titleLabel.setText(TITLE);
         keyWordsLabel.setText(KEY_WORDS);

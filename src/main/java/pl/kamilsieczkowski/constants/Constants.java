@@ -13,6 +13,12 @@ public class Constants {
     public static final String COLUMN_EDITION = "edition";
     public static final String COLUMN_LOCALIZATION = "localization";
     public static final String SOURCE_ADD_NEW_BOOK_WINDOW = "/addNewBook.fxml";
-    public static final String SOURCE_EDIT_BOOK_WINDOW = "/editBook.fxml";
     public static final String SOURCE_LIBRARY_WINDOW = "/libraryWindow.fxml";
+    public static final String SOURCE_EDIT_BOOK = "/editBook.fxml";
+    public static final String POPUP_SELECT_BOOK = "/popupSelectBook.fxml";
+    public static final String LIBRARY = "library";
+    public static final String CLIENT = "CLIENT";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String PRIVILEGE = "privilege";
 }
